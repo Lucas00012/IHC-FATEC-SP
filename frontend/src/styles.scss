@@ -1,0 +1,30 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+mat-icon {
+    vertical-align: middle;
+}
+
+.container-fields {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5em;
+    
+    mat-form-field {
+        flex: 1;
+    }
+}
+
+.maximize {
+    width: 100%
+}
+
+.font-white:not([disabled]) {
+    color: white !important;
+}
+
+@import 'app/shared/print-snackbar/print-snackbar.service.theme.scss';
+@include print-snackbar-theme();

@@ -1,0 +1,17 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Lucas Eduardo",
+      "email": "lucas@gmail.com",
+      "password": "123123"
+    },
+    {
+      "name": "Joao Silva",
+      "email": "joao@gmail.com",
+      "password": "123123",
+      "id": 2
+    }
+  ],
+  "projects": []
+}

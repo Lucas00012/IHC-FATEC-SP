@@ -1,0 +1,79 @@
+<mat-sidenav-container>
+    <mat-sidenav #sidenav
+    [style.display]="showSidenavHeader ? 'block' : 'none'"
+    [mode]="showSidenavHeader ? 'over' : 'side'">
+        <mat-nav-list>
+            <a mat-list-item [routerLink]="['/help']">
+                <mat-icon>help</mat-icon> Ajuda
+            </a>
+            <a mat-list-item *ngIf="isLogged" [routerLink]="['/project', 'list']">
+                <mat-icon>content_copy</mat-icon> Projetos
+            </a>
+            <a mat-list-item *ngIf="!isLogged" [routerLink]="['/user', 'login']">
+                <mat-icon>person</mat-icon> Login
+            </a>
+
+            <ng-container *ngIf="user && isLogged">
+                <h2>Perfil</h2>
+                <p>{{ user.name }} / {{ user.email }}</p>
+                <a mat-list-item [routerLink]="['/user', 'change-password']">
+                    <mat-icon mat-list-icon>security</mat-icon>
+                    <span>Alterar senha</span>
+                </a>
+                <a mat-list-item (click)="logout()">
+                    <mat-icon mat-list-icon>power_settings_new</mat-icon>
+                    <span>Sair</span>
+                </a>
+            </ng-container>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-toolbar color="primary" class="mat-elevation-z4">
+        <button mat-icon-button *ngIf="showSidenavHeader; else defaultHeader" (click)="sidenav.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
+    </mat-toolbar>
+    <main>
+        <ng-content></ng-content>
+    </main>
+</mat-sidenav-container>
+
+<ng-template #defaultHeader>
+    <a class="main-logo" [routerLink]="['']">ScrumApp</a>
+    <nav>
+        <div>
+            <a mat-button [routerLink]="['/help']">
+                <mat-icon>help</mat-icon> Ajuda
+            </a>
+            <a mat-button *ngIf="isLogged" [routerLink]="['/project', 'list']">
+                <mat-icon>content_copy</mat-icon> Projetos
+            </a>
+            <a mat-button *ngIf="!isLogged" [routerLink]="['/user', 'login']">
+                <mat-icon>person</mat-icon> Login
+            </a>
+        </div>
+        
+        <div *ngIf="user && isLogged">
+            <button mat-button [matMenuTriggerFor]="menu">
+                Perfil <mat-icon>account_circle</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <mat-nav-list class="user-list">
+                    <mat-list-item>
+                        <span matListAvatar class="user-logo">{{ user.name[0] }}</span>
+                        <h3 matLine>{{ user.name }}</h3>
+                        <p matLine>{{ user.email }}</p>
+                    </mat-list-item>
+                    <mat-divider></mat-divider>
+                    <a mat-list-item [routerLink]="['/user', 'change-password']">
+                        <mat-icon mat-list-icon>security</mat-icon>
+                        <span>Alterar senha</span>
+                    </a>
+                    <a mat-list-item (click)="logout()">
+                        <mat-icon mat-list-icon>power_settings_new</mat-icon>
+                        <span>Sair</span>
+                    </a>
+                </mat-nav-list>
+            </mat-menu>
+        </div>
+    </nav>
+</ng-template>

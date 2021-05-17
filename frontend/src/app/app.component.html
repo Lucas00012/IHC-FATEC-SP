@@ -1,0 +1,5 @@
+<app-shell 
+    [user]="(user$ | async)" 
+    [isLogged]="(isLogged$ | async) ?? false">
+    <router-outlet></router-outlet>
+</app-shell>

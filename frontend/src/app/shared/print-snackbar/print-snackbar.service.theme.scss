@@ -1,0 +1,19 @@
+@mixin print-snackbar-theme() {
+    .snackbar-error{
+        background-color: red !important;
+        color: white !important;
+    
+        span{
+            color: white !important;
+        }
+    }
+    
+    .snackbar-success{
+        background-color: green !important;
+        color: white !important;
+    
+        span{
+            color: white !important;
+        }
+    }
+}

@@ -1,0 +1,30 @@
+import { HttpClientModule } from "@angular/common/http";
+import { LOCALE_ID, NgModule, Optional, SkipSelf } from "@angular/core";
+import { RouterModule } from "@angular/router";
+import { SharedModule } from "@shared/shared.module";
+import { ApiModule } from "./api/api.module";
+
+@NgModule({
+    imports: [
+        SharedModule,
+        HttpClientModule,
+        ApiModule,
+        RouterModule,
+    ],
+    providers: [
+        { provide: LOCALE_ID, useValue: "pt" }
+    ]
+})
+export class CoreModule {
+    constructor(
+        @Optional()
+        @SkipSelf()
+        parentModule: CoreModule | null = null
+      ) {
+        if (parentModule) {
+          const msg = `CoreModule has already been loaded.
+          Import CoreModule once, only, in the root AppModule.`;
+          throw new Error(msg);
+        }
+      }
+}

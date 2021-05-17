@@ -1,0 +1,53 @@
+@import "src/app/shared/material/theme.scss";
+
+mat-toolbar {
+    color: white !important;
+}
+
+.main-logo {
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+    border: none;
+    outline: none;
+}
+
+main {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    width: 85%;
+    margin: auto;
+}
+
+.user-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 60px !important;
+    height: 60px !important;
+
+    color: white;
+    font-size: 18pt;
+    background-color: $primary-color;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 3em;
+    width: 100%;
+}
+
+mat-sidenav-container {
+    height: 100vh;
+}
+
+mat-sidenav {
+    width: 200px;
+    padding-left: 1em;
+}
+
+footer {
+    background-color: $primary-color;
+}
