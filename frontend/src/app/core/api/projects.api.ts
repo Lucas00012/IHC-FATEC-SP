@@ -52,11 +52,14 @@ export class ProjectsService {
         );
     }
 
-    update(project: Project) {
+    update(project: Project, userId?: number) {
         let url = `${this._baseUrl}/projects`;
 
-        return this._http.put<Project>(url, project).pipe(
-            catchError(_ => throwError("Erro ao atualizar os dados."))
-        )
+        return this._allocationsService.getAll().pipe(
+            switchMap((allocations) => !allocations.some(a => a.userId == userId && a.responsability == Responsability.ScrumMaster)
+                ? throwError("O projeto pertence a outro usuário")
+                : this._http.put<Project>(url, project)
+            )
+        );
     }
 }
