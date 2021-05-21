@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AllocationsService } from '@core/api/allocations.api';
+import { Router } from '@angular/router';
 import { ProjectsService } from '@core/api/projects.api';
 import { UsersService } from '@core/api/users.api';
 import { AuthService } from '@core/auth/auth.service';
@@ -16,21 +16,21 @@ import { catchError, map, shareReplay, switchMap, tap } from 'rxjs/operators';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
 
   constructor(
     private _fb: FormBuilder,
     private _projectsService: ProjectsService,
     private _authService: AuthService,
+    private _router: Router,
     private _printService: PrintSnackbarService,
     private _usersService: UsersService,
   ) { }
 
-  ngOnInit() {
-    this.initForm();
-  }
-
-  form!: FormGroup;
+  form = this._fb.group({
+    name: ["", [Validators.required]],
+    allocations: this._fb.array([])
+  });
 
   get allocations() {
     return this.form.get("allocations") as FormArray;
@@ -55,8 +55,7 @@ export class RegisterComponent implements OnInit {
   );
 
   userOptions$ = combineLatest([this.autocomplete$, this.users$]).pipe(
-    map(([autocomplete, users]) => 
-      users.filter(user => 
+    map(([autocomplete, users]) => users.filter(user => 
         insensitiveContains(user.name, autocomplete) || user.id?.toString().includes(autocomplete)
     ))
   );
@@ -76,9 +75,7 @@ export class RegisterComponent implements OnInit {
   }
 
   addAllocation(user: User) {
-    if (this.allocations.value.some((a) => a.userId === user.id)) {
-      return;
-    }
+    if (this.allocations.value.some((a) => a.userId === user.id)) return;
 
     this.allocations.push(
       this._fb.group({
@@ -92,25 +89,13 @@ export class RegisterComponent implements OnInit {
     this.allocations.removeAt(index);
   }
 
-  initForm() {
-    this.form = this._fb.group({
-      name: ["", [Validators.required]],
-      allocations: this._fb.array([
-  
-      ])
-    });
-  }
-
   create() {
-    let body = Object.assign(this.form.value, {});
-    let allocations = this.allocations.value;
-
-    delete body.allocations;
+    let body = this.form.value;
     body = { ...body, creation: Date.now() };
 
     this.user$.pipe(
-      switchMap((creator) => this._projectsService.add(body, allocations, creator?.id)),
-      tap(_ => this.initForm()),
+      switchMap((creator) => this._projectsService.add(body, creator?.id)),
+      tap(_ => this._router.navigate(["/project", "list"])),
       tap(_ => this._printService.printSuccess("Projeto criado com sucesso!")),
       catchError((err) => this._printService.printError(err, err))
     ).subscribe();

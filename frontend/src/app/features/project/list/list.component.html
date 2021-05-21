@@ -2,6 +2,10 @@
 
 <ng-container *ngIf="projects$ | async as projects; else loading">
     <p *ngIf="!projects.length">Você ainda não possui projetos.</p>
+    <mat-card *ngFor="let project of projects" class="project-item">
+        <h1 class="font-upper"> {{ project.name }} </h1>
+        <p> {{ project.creation | date:'dd/MM/yyyy' }} </p>
+    </mat-card>
 </ng-container>
 
 <ng-template #loading>

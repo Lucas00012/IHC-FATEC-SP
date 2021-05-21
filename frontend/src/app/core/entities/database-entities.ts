@@ -11,11 +11,10 @@ export interface Project {
     id?: number,
     name: string,
     creation: Date,
+    allocations: Allocation[],
 }
 
 export interface Allocation {
-    id?: number,
-    projectId: number,
     userId: number,
     responsability: Responsability
 }
