@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable, Optional } from "@angular/core";
+import { AuthService } from "@core/auth/auth.service";
 import { User } from "@core/entities/database-entities";
 import { buildQuery } from "@shared/utils/utils";
 import { Observable, of, throwError } from "rxjs";
@@ -12,6 +13,7 @@ import { API_BASE_URL } from "./api.module";
 export class UsersService {
     constructor(
         @Inject(HttpClient) private _http: HttpClient,
+        @Inject(AuthService) private _authService: AuthService,
         @Optional() @Inject(API_BASE_URL) private _baseUrl: string
     ) { }
 
@@ -22,6 +24,16 @@ export class UsersService {
         return this._http.get<User[]>(url).pipe(
             catchError(_ => throwError("Erro ao obter os usuários."))
         );
+    }
+
+    getAllExceptCurrent(objQuery?: any) : Observable<User[]> {
+
+        return this.getAll(objQuery).pipe(
+            switchMap(users => this._authService.user$.pipe(
+                map(user => users.filter(u => u.id !== user?.id))
+            )),
+            catchError(_ => throwError("Erro ao obtero os usuários"))
+        )
     }
 
     get(id?: number) {

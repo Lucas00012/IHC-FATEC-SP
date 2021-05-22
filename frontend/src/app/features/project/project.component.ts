@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { AuthService } from "@core/auth/auth.service";
 import { interval } from "rxjs";
 import { map, startWith } from "rxjs/operators";
+import { ProjectFeatureService } from "./tools/project-feature.service";
 
 @Component({
     templateUrl: "./project.component.html",
@@ -9,7 +10,8 @@ import { map, startWith } from "rxjs/operators";
 })
 export class ProjectComponent {
     constructor(
-        private _authService: AuthService
+        private _authService: AuthService,
+        private _projectFeatureService: ProjectFeatureService
     ) { }
 
     user$ = this._authService.user$;
@@ -18,4 +20,6 @@ export class ProjectComponent {
         startWith(null),
         map(_ => Date.now())
     );
+
+    project$ = this._projectFeatureService.currentProject$;
 }
