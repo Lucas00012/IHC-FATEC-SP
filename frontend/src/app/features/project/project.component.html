@@ -1,3 +1,6 @@
+<ng-container *ngIf="project$ | async as project">
+    <h1 *ngIf="project" class="font-upper">{{ project.name }}</h1>
+</ng-container>
 <mat-card *ngIf="user$ | async as user">
     <div>
         <mat-icon>waving_hand</mat-icon>

@@ -47,12 +47,9 @@ export class RegisterComponent {
 
   user$ = this._authService.user$;
 
-  users$ = this.user$.pipe(
-    switchMap(user => this._usersService.getAll().pipe(
-      map(users => users.filter(u => u.id !== user?.id))
-    )),
+  users$ = this._usersService.getAllExceptCurrent().pipe(
     shareReplay(1)
-  );
+  )
 
   userOptions$ = combineLatest([this.autocomplete$, this.users$]).pipe(
     map(([autocomplete, users]) => users.filter(user => 
@@ -64,10 +61,6 @@ export class RegisterComponent {
     return user && user.name ? user.name : '';
   }
 
-  userById(id: number) {
-    return this.users$.pipe(map(users => users.find(user => user.id === id)));
-  }
-
   userOnChange(event) {
     const user = event.option.value;
     this.addAllocation(user);
@@ -75,11 +68,11 @@ export class RegisterComponent {
   }
 
   addAllocation(user: User) {
-    if (this.allocations.value.some((a) => a.userId === user.id)) return;
+    if (this.allocations.value.some((a) => a.user.id == user.id)) return;
 
     this.allocations.push(
       this._fb.group({
-        userId: [user.id, [Validators.required]],
+        user: [user, [Validators.required]],
         responsability: [Responsability.Employee, Validators.required]
       })
     );
@@ -91,7 +84,8 @@ export class RegisterComponent {
 
   create() {
     let body = this.form.value;
-    body = { ...body, creation: Date.now() };
+    let allocations = body.allocations.map(a => ({ userId: a.user.id, responsability: a.responsability }));
+    body = { ...body, allocations, creation: Date.now() };
 
     this.user$.pipe(
       switchMap((creator) => this._projectsService.add(body, creator?.id)),

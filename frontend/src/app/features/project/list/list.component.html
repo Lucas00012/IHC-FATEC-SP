@@ -5,6 +5,9 @@
     <mat-card *ngFor="let project of projects" class="project-item">
         <h1 class="font-upper"> {{ project.name }} </h1>
         <p> {{ project.creation | date:'dd/MM/yyyy' }} </p>
+        <a mat-raised-button color="accent" [routerLink]="['/project', 'details', project.id]">
+            Acessar
+        </a>
     </mat-card>
 </ng-container>
 

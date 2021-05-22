@@ -30,7 +30,7 @@
         </p>
         <div class="user-container">
             <ng-container *ngFor="let allocation of allocations.controls; let i = index" [formGroupName]="i">
-                <div *ngIf="userById(allocation.value.userId) | async as user" class="user-item">
+                <div *ngIf="allocation.value.user as user" class="user-item">
                     <span class="user-logo">{{ user.name[0] }}</span>
                     <mat-form-field>
                         <mat-label>Usuário</mat-label>

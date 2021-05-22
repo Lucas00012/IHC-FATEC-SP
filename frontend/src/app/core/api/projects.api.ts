@@ -24,7 +24,7 @@ export class ProjectsService {
         )
     }
 
-    get(id?: number) {
+    get(id: number | undefined | null) {
         let url = `${this._baseUrl}/projects/${id}`;
 
         return this._http.get<Project>(url).pipe(
