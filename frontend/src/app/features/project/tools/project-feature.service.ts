@@ -27,7 +27,6 @@ export class ProjectFeatureService {
         switchMap(id => this.projectOptions$.pipe(
             map(projects => {
                 let currentProject = projects.find(p => p.id == id);
-
                 if(id && !currentProject) this._router.navigate([""]);
 
                 return currentProject;

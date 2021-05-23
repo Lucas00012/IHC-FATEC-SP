@@ -12,19 +12,18 @@ const routes: Routes = [
     { 
         path: "", 
         component: ProjectComponent, 
-        canActivate: [LoggedGuard, ProjectGuard],
+        canActivate: [LoggedGuard],
         children: [
-            { path: "list", component: ListComponent },
-            { path: "register", component: RegisterComponent }
+            { path: "list", component: ListComponent, canActivate: [ProjectGuard] },
+            { path: "register", component: RegisterComponent, canActivate: [ProjectGuard] },
+            { 
+                path: "details/:projectId",
+                canActivate: [ProjectGuard],
+                children: [
+                    { path: "", component: DetailsComponent }
+                ] 
+            }
         ] 
-    },
-    {
-        path: "details/:projectId",
-        component: ProjectComponent,
-        canActivate: [LoggedGuard, ProjectGuard],
-        children: [
-            { path: "", component: DetailsComponent }
-        ]
     }
 ]
 
