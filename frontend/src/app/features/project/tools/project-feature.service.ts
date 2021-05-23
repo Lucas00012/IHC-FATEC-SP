@@ -1,4 +1,5 @@
 import { Inject, Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 import { ProjectsService } from "@core/api/projects.api";
 import { AuthService } from "@core/auth/auth.service";
 import { Responsability } from "@core/entities/value-entities";
@@ -9,7 +10,8 @@ import { catchError, map, shareReplay, switchMap } from "rxjs/operators";
 export class ProjectFeatureService {
     constructor(
         private _projectsService: ProjectsService,
-        private _authService: AuthService
+        private _authService: AuthService,
+        private _router: Router
     ) { }
 
     private _reload$ = new BehaviorSubject<void | null>(null);
@@ -22,10 +24,15 @@ export class ProjectFeatureService {
     currentProjectId$ = new BehaviorSubject<number | null>(null);
 
     currentProject$ = this.currentProjectId$.pipe(
-        switchMap(id => {
-            if (!id) return of(null);
-            return this.projectOptions$.pipe(map(projects => projects.find(p => p.id == id)))
-        }),
+        switchMap(id => this.projectOptions$.pipe(
+            map(projects => {
+                let currentProject = projects.find(p => p.id == id);
+
+                if(id && !currentProject) this._router.navigate([""]);
+
+                return currentProject;
+            })
+        )),
         shareReplay(1)
     );
 
