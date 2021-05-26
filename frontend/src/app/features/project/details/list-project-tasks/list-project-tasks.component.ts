@@ -9,11 +9,11 @@ import { catchError, filter, map, switchMap, tap } from "rxjs/operators";
 import { TaskAddDialogComponent } from "./task-add-dialog/task-add-dialog.component";
 
 @Component({
-    selector: "app-project-tasks",
+    selector: "app-list-project-tasks",
     templateUrl: "./project-tasks.component.html",
     styleUrls: ["./project-tasks.component.scss"]
 })
-export class ProjectTasksComponent {
+export class ListProjectTasksComponent {
 
     constructor(
         private _dialog: MatDialog,
@@ -24,14 +24,17 @@ export class ProjectTasksComponent {
 
     @Input() project!: Project;
 
-    canChange$ = combineLatest([this._projectFeatureService.isProductOwner$, this._projectFeatureService.isScrumMaster$]).pipe(
+    isProductOwner$ = this._projectFeatureService.isProductOwner$;
+    isScrumMaster$ = this._projectFeatureService.isScrumMaster$;
+
+    canAddTasks$ = combineLatest([this.isProductOwner$, this.isScrumMaster$]).pipe(
         map(([isProductOwner, isScrumMaster]) => isProductOwner || isScrumMaster)
     );
 
     addTask() {
         this._dialog.open(TaskAddDialogComponent, {
             width: "400px",
-            height: "350px"
+            height: "400px"
         }).afterClosed().pipe(
             filter(body => !!body),
             map(body => [...this.project.tasks, body]),
