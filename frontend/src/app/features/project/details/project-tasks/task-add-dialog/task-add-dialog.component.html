@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>Criar tarefa</h1>
-<div mat-dialog-content [formGroup]="form">
+<div mat-dialog-content [formGroup]="form" *ngIf="loggedUser$ | async as loggedUser">
     <mat-form-field class="maximize" appearance="outline">
         <mat-label>Título *</mat-label>
         <input matInput formControlName="title">
@@ -10,7 +10,7 @@
         <input matInput formControlName="userId" [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
             <mat-option *ngFor="let user of userOptions$ | async" [value]="user">
-            {{user.name}} #{{user.id}}
+            {{user.name}} #{{user.id}} <span *ngIf="loggedUser.id == user.id">(Você)</span>
             </mat-option>
         </mat-autocomplete>
         <mat-error *ngIf="form.get('userId')?.hasError('required')">O campo é obrigatório</mat-error>

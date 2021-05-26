@@ -1,6 +1,10 @@
-.tasks-container {
+.container {
     display: flex;
     justify-content: center;
     gap: 1em;
     align-items: center;
+}
+
+.tasks {
+    margin-top: 1em;
 }

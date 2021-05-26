@@ -1,6 +1,8 @@
 <ng-container *ngIf="project$ | async as project">
     <mat-tab-group [selectedIndex]="activeTab" (selectedTabChange)="handleMatTabChange($event)">
-        <mat-tab label="Tarefas"> Tarefas </mat-tab>
+        <mat-tab label="Tarefas">
+          <app-project-tasks [project]="project"></app-project-tasks>
+        </mat-tab>
         <mat-tab label="Alocações"> Alocações </mat-tab>
         <mat-tab label="Reuniões"> Reuniões </mat-tab>
         <mat-tab label="Sprints"> Sprints </mat-tab>
