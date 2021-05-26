@@ -1,4 +1,4 @@
-<button mat-raised-button class="font-white" color="primary">
+<button mat-raised-button class="font-white" color="primary" *ngIf="canChange$ | async">
     <mat-icon>add</mat-icon>
     Criar
 </button>
@@ -6,6 +6,6 @@
 <div class="tasks-container">
     <p *ngIf="project.tasks.length">O projeto ainda não possui tarefas</p>
     <mat-card *ngFor="let task of project.tasks">
-
+        <h2>{{task.title}}</h2>
     </mat-card>
 </div>

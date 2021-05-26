@@ -1,10 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable, Optional } from "@angular/core";
+import { AuthService } from "@core/auth/auth.service";
 import { Allocation, Project } from "@core/entities/database-entities";
 import { Responsability } from "@core/entities/value-entities";
 import { buildQuery } from "@shared/utils/utils";
 import { combineLatest, Observable, of, throwError } from "rxjs";
-import { catchError, map, switchMap } from "rxjs/operators";
+import { catchError, map, switchMap, take } from "rxjs/operators";
 import { API_BASE_URL } from "./api.module";
 
 @Injectable({
@@ -14,6 +15,7 @@ export class ProjectsService {
     constructor(
         @Inject(HttpClient) private _http: HttpClient,
         @Optional() @Inject(API_BASE_URL) private _baseUrl: string,
+        @Inject(AuthService) private _authService: AuthService
     ) { }
 
     getAll(userId?: number, objQuery?: any): Observable<Project[]> {
@@ -48,15 +50,33 @@ export class ProjectsService {
         );
     }
 
-    update(id: number, project: Project, userId?: number) {
+    update(id: number, project: Project) {
         let url = `${this._baseUrl}/projects/${id}`;
 
-        return this.get(id).pipe(
-            switchMap((project) => !project.allocations.some(a => a.userId == userId && a.responsability == Responsability.ScrumMaster)
-                ? throwError("O projeto pertence a outro usuário")
-                : of(project)
-            ),
-            switchMap(_ => this._http.put<Project>(url, project))
-        )
+        return this._authService.user$.pipe(
+            take(1),
+            switchMap(user => this.get(id).pipe(
+                switchMap(project => !project.allocations.some(a => a.userId == user?.id && a.responsability == Responsability.ScrumMaster)
+                    ? throwError("O projeto pertence a outro usuário")
+                    : of(project)
+                ),
+                switchMap(_ => this._http.put<Project>(url, project))
+            ))
+        );
+    }
+
+    patch(id: number | undefined | null, body: any) {
+        let url = `${this._baseUrl}/projects/${id}`;
+
+        return this._authService.user$.pipe(
+            take(1),
+            switchMap(user => this.get(id).pipe(
+                switchMap(project => !project.allocations.some(a => a.userId == user?.id && a.responsability == Responsability.ScrumMaster)
+                    ? throwError("O projeto pertence a outro usuário")
+                    : of(project)
+                ),
+                switchMap(_ => this._http.patch<Project>(url, body))
+            ))
+        );
     }
 }

@@ -8,6 +8,7 @@ import { ProjectComponent } from "./project.component";
 import { RegisterComponent } from './register/register.component';
 import { ProjectFeatureService } from "./tools/project-feature.service";
 import { ProjectGuard } from "./tools/project.guard";
+import { TaskAddDialogComponent } from './details/project-tasks/task-add-dialog/task-add-dialog.component';
 
 @NgModule({
     declarations: [
@@ -15,7 +16,8 @@ import { ProjectGuard } from "./tools/project.guard";
         ListComponent,
         RegisterComponent,
         DetailsComponent,
-        ProjectTasksComponent
+        ProjectTasksComponent,
+        TaskAddDialogComponent
     ],
     imports: [
         SharedModule,
