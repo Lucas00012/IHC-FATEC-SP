@@ -26,7 +26,7 @@ export class TaskAddDialogComponent {
   ) { }
 
   form = this._fb.group({
-    title: ["", [Validators.required]],
+    title: ["", [Validators.required, Validators.maxLength(25)]],
     description: ["", [Validators.required]],
     status: [TaskStatus.InProgress],
     userId: [null]

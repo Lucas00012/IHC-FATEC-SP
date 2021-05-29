@@ -86,7 +86,8 @@ export class ProjectsService {
         return this._authService.user$.pipe(
             take(1),
             switchMap(user => this.get(id).pipe(
-                switchMap(project => !project.allocations.some(a => a.userId == user?.id && a.responsability == Responsability.ScrumMaster)
+                switchMap(project => !project.allocations.some(a => a.userId == user?.id 
+                        && (a.responsability == Responsability.ScrumMaster || a?.responsability === Responsability.ProductOwner))
                     ? throwError("O projeto pertence a outro usuário")
                     : of(project)
                 ),
@@ -96,6 +97,59 @@ export class ProjectsService {
 
                     body.userId = userId;
                     project.tasks.push(body);
+
+                    let allTasks = { tasks: project.tasks };
+                    return allTasks;
+                }),
+                switchMap(tasks => this._http.patch<Project>(url, tasks))
+            ))
+        );
+    }
+
+    removeTask(id: number | undefined | null, index: number) {
+        let url = `${this._baseUrl}/projects/${id}`;
+
+        return this._authService.user$.pipe(
+            take(1),
+            switchMap(user => this.get(id).pipe(
+                switchMap(project => !project.allocations.some(a => a.userId == user?.id 
+                        && (a.responsability == Responsability.ScrumMaster || a?.responsability === Responsability.ProductOwner))
+                    ? throwError("Você não pode excluir tarefas")
+                    : of(project)
+                ),
+                map(project => {
+                    project.tasks.splice(index, 1);
+
+                    let allTasks = { tasks: project.tasks };
+                    return allTasks;
+                }),
+                switchMap(tasks => this._http.patch<Project>(url, tasks))
+            ))
+        );
+    }
+
+    updateTask(id: number | undefined | null, body: Task, index: number) {
+        let url = `${this._baseUrl}/projects/${id}`;
+
+        return this._authService.user$.pipe(
+            take(1),
+            switchMap(user => this.get(id).pipe(
+                switchMap(project => !project.allocations.some(a => a.userId == user?.id)
+                    ? throwError("Você não pertence ao projeto")
+                    : of(project)
+                ),
+                map(project => {
+                    let userExists = project.allocations?.some(u => u.userId == body.userId);
+                    let userId = userExists ? body.userId : null;
+
+                    body.userId = userId;
+
+                    let allocation = project.allocations?.find(u => u.userId == user?.id);
+
+                    if (allocation?.responsability === Responsability.ScrumMaster || allocation?.responsability === Responsability.ProductOwner)
+                        project.tasks[index] = body;
+                    else 
+                        project.tasks[index].status = body.status;
 
                     let allTasks = { tasks: project.tasks };
                     return allTasks;

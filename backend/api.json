@@ -41,20 +41,14 @@
       "id": 1,
       "tasks": [
         {
-          "title": "Homepage",
-          "description": "teste",
-          "status": "Em andamento",
-          "userId": null
-        },
-        {
-          "title": "Teste",
-          "description": "teste",
-          "status": "Em andamento",
-          "userId": null
-        },
-        {
           "title": "Criar homepage",
-          "description": "abc",
+          "description": "Criar a página principal do site de acordo com as especificações definidas no escopo.",
+          "status": "Em andamento",
+          "userId": 3
+        },
+        {
+          "title": "Criar tela de login",
+          "description": "- validar senha\n- validar email",
           "status": "Em andamento",
           "userId": 2
         }

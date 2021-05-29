@@ -3,7 +3,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { ProjectsService } from "@core/api/projects.api";
 import { UsersService } from "@core/api/users.api";
 import { AuthService } from "@core/auth/auth.service";
-import { Project } from "@core/entities/database-entities";
+import { Project, Task } from "@core/entities/database-entities";
 import { ProjectFeatureService } from "@features/project/tools/project-feature.service";
 import { PrintSnackbarService } from "@shared/print-snackbar/print-snackbar.service";
 import { combineLatest } from "rxjs";
@@ -28,7 +28,6 @@ export class ListProjectTasksComponent {
 
     isProductOwner$ = this._projectFeatureService.isProductOwner$;
     isScrumMaster$ = this._projectFeatureService.isScrumMaster$;
-    userOptions$ = this._projectFeatureService.usersProject$;
 
     isSpecial$ = combineLatest([
         this.isProductOwner$, 
@@ -47,6 +46,22 @@ export class ListProjectTasksComponent {
             tap(_ => this._printService.printSuccess("Tarefa cadastrada com sucesso!")),
             tap(_ => this._projectFeatureService.notifyProjectChanges()),
             catchError(err => this._printService.printError("Erro ao cadastrar a tarefa", err))
+        ).subscribe();
+    }
+
+    updateTask(body: any, index: number) {
+        this._projectsService.updateTask(this.project.id, body, index).pipe(
+            tap(_ => this._printService.printSuccess("Tarefa atualizada com sucesso!")),
+            tap(_ => this._projectFeatureService.notifyProjectChanges()),
+            catchError(err => this._printService.printError("Erro ao atualizar a tarefa", err))
+        ).subscribe();
+    }
+
+    deleteTask(index: number) {
+        this._projectsService.removeTask(this.project.id, index).pipe(
+            tap(_ => this._printService.printSuccess("Tarefa excluida com sucesso!")),
+            tap(_ => this._projectFeatureService.notifyProjectChanges()),
+            catchError(err => this._printService.printError("Erro ao excluir a tarefa", err))
         ).subscribe();
     }
 }

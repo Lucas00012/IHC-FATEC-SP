@@ -1,5 +1,5 @@
-import { AfterContentInit, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { AfterContentInit, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { UsersService } from '@core/api/users.api';
 import { AuthService } from '@core/auth/auth.service';
 import { Project, Task, User } from '@core/entities/database-entities';
@@ -33,10 +33,13 @@ export class DisplayTaskComponent implements AfterViewInit {
   @Input() project!: Project;
   @Input() isSpecial!: boolean;
 
+  @Output() update = new EventEmitter<Task>();
+  @Output() delete = new EventEmitter();
+
   form = this._fb.group({
-    title: [""],
-    description: [""],
-    status: [null],
+    title: ["", [Validators.required, Validators.maxLength(20)]],
+    description: ["", [Validators.required]],
+    status: [null, [Validators.required]],
     userId: [null]
   });
 
@@ -50,6 +53,11 @@ export class DisplayTaskComponent implements AfterViewInit {
   user$ = this._authService.user$;
 
   userOptions$ = this._projectFeatureService.usersProject$;
+
+  isTaskAssignedOrSpecial$ = this.user$.pipe(
+    map((user) => user?.id == this.task.userId),
+    map((isTaskAssigned) => isTaskAssigned || this.isSpecial)
+  );
   
   autocomplete$ = fromForm(this.autocomplete);
   
@@ -75,5 +83,18 @@ export class DisplayTaskComponent implements AfterViewInit {
 
   handleEdit(value: boolean) {
     this.editing = value;
+
+    this.form.patchValue(this.task);
+    this._cd.detectChanges();
+  }
+
+  onUpdate() {
+    if (this.form.invalid) return;
+
+    this.update.emit(this.form.value);
+  }
+
+  onDelete() {
+    this.delete.emit();
   }
 }

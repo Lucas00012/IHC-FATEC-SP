@@ -2,7 +2,7 @@
 <div mat-dialog-content [formGroup]="form">
     <mat-form-field class="maximize" appearance="outline">
         <mat-label>Título *</mat-label>
-        <input matInput formControlName="title">
+        <input matInput formControlName="title" maxlength="20">
         <mat-error *ngIf="form.get('title')?.hasError('required')">O campo é obrigatório</mat-error>
     </mat-form-field>
     <mat-form-field class="maximize" appearance="outline" *ngIf="usersFiltered$ | async as users">
@@ -21,7 +21,8 @@
     </mat-form-field>
 </div>
 <div mat-dialog-actions>
-    <button mat-raised-button (click)="onSave()" [disabled]="form.invalid">Salvar</button>
+    <button mat-raised-button color="primary" class="font-white"
+        (click)="onSave()" [disabled]="form.invalid">Salvar</button>
     <button mat-button mat-dialog-close>Cancelar</button>
 </div>
 
