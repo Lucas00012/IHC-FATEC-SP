@@ -59,14 +59,14 @@ export class TaskAddDialogComponent {
     return user ? `${user.name} #${user.id}` : userInput;
   }
 
-  filter(users: User[], userInput: any) {
+  filter(users: User[], userInput: string | number) {
     if (!userInput) return users;
     
-    userInput = typeof userInput === "number" ? userInput.toString() : userInput;
+    let search = userInput.toString();
 
     return users.filter(user =>
-      insensitiveContains(user.name, userInput) ||
-      user.id?.toString().includes(userInput)
+      insensitiveContains(user.name, search) ||
+      user.id?.toString().includes(search)
     );
   }
 }
