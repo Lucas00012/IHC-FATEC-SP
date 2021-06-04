@@ -47,6 +47,10 @@ export class ListProjectTasksComponent {
 
     form$ = fromForm(this.form);
 
+    isSpecial$ = combineLatest([this.isProductOwner$, this.isScrumMaster$]).pipe(
+        map(([isProductOwner, isScrumMaster]) => isProductOwner || isScrumMaster)
+    );
+
     tasks$ = combineLatest([this.form$, this.project$, this.allocation$]).pipe(
         map(([form, project, allocation]) => {
             if (!project) return [];
@@ -63,13 +67,10 @@ export class ListProjectTasksComponent {
 
             return tasks;
         })
-    )
+    );
 
-    isSpecial$ = combineLatest([
-        this.isProductOwner$, 
-        this.isScrumMaster$
-    ]).pipe(
-        map(([isProductOwner, isScrumMaster]) => isProductOwner || isScrumMaster)
+    info$ = combineLatest([this.user$, this.isSpecial$]).pipe(
+        map(([user, isSpecial]) => ({ user, isSpecial }) )
     );
 
     addTask() {
