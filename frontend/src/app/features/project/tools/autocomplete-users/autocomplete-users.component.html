@@ -3,8 +3,8 @@
         <ng-content select="[slot=mat-label]"></ng-content>
     </mat-label>
     <input matInput [formControl]="form" [matAutocomplete]="auto">
-    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this)" (optionSelected)="userOnChange($event)">
-        <mat-option *ngFor="let user of users" [value]="user">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this, users)" (optionSelected)="userOnChange($event)">
+        <mat-option *ngFor="let user of users" [value]="mapValue(user)">
             {{user.name}} #{{user.id}} <span *ngIf="user$ | async as loggedUser">{{ loggedUser.id == user.id ? '(Você)' : '' }}</span>
         </mat-option>
     </mat-autocomplete>

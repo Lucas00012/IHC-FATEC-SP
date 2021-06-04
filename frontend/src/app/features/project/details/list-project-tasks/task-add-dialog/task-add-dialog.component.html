@@ -5,7 +5,8 @@
         <input matInput formControlName="title" maxlength="20">
         <mat-error *ngIf="form.get('title')?.hasError('required')">O campo é obrigatório</mat-error>
     </mat-form-field>
-    <app-autocomplete-users *ngIf="userOptions$ | async as users" [users]="users" formControlName="user">
+    <app-autocomplete-users *ngIf="userOptions$ | async as users" formControlName="userId"
+        [users]="users" [mapValue]="mapUserValue" [displayFn]="displayFnUsers">
         <span slot="mat-label">Usuário</span>
     </app-autocomplete-users>
     <mat-form-field class="maximize" appearance="outline">

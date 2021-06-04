@@ -37,7 +37,7 @@ export class AutocompleteUsersComponent extends NestedForm {
     map((autocomplete) => this.filter(autocomplete))
   );
 
-  filter(userInput: string | User) {
+  filter(userInput: string | any) {
     if (!userInput) return this.users;
     let search = userInput.toString();
 
@@ -54,7 +54,11 @@ export class AutocompleteUsersComponent extends NestedForm {
     this.selected.emit(user);
   }
 
-  displayFn(user: User) {
-    return user && user.name ? `${user.name} #${user.id}` : '';
+  @Input() displayFn(users: User[], userInput: string | any) {
+    return userInput && userInput.name ? `${userInput.name} #${userInput.id}` : '';
+  }
+
+  @Input() mapValue(user: User): any {
+    return user;
   }
 }

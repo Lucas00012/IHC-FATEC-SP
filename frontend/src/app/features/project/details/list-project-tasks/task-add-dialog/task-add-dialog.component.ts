@@ -29,7 +29,7 @@ export class TaskAddDialogComponent {
     title: ["", [Validators.required, Validators.maxLength(25)]],
     description: ["", [Validators.required]],
     status: [TaskStatus.InProgress],
-    user: [null]
+    userId: [null]
   });
 
   project$ = this._projectFeatureService.currentProject$;
@@ -40,11 +40,15 @@ export class TaskAddDialogComponent {
 
   onSave() {
     if (this.form.invalid) return;
+    this._dialogRef.close(this.form.value);
+  }
 
-    let body = this.form.value;
-    body.userId = body.user.id;
-    delete body.user;
+  mapUserValue(user: User) {
+    return user.id;
+  }
 
-    this._dialogRef.close(body);
+  displayFnUsers(users: User[], userInput: string | any) {
+    const user = users.find(user => user.id == userInput);
+    return user ? `${user.name} #${user.id}` : userInput;
   }
 }
