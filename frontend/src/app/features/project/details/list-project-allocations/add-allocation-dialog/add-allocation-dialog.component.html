@@ -1,14 +1,9 @@
-<ng-container *ngIf="usersFiltered$ | async as users; else loading">
+<ng-container *ngIf="userOptions$ | async as users; else loading">
     <h1 mat-dialog-title>Alocar usuário</h1>
     <div mat-dialog-content [formGroup]="form">
-        <mat-form-field class="maximize" appearance="outline">
-            <input matInput [formControl]="autocomplete" [matAutocomplete]="auto" placeholder="-- SELECIONE --">
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="userOnChange($event)">
-                <mat-option *ngFor="let user of users" [value]="user">
-                    {{user.name}} #{{user.id}}
-                </mat-option>
-            </mat-autocomplete>
-        </mat-form-field>
+        <app-autocomplete-users [formControl]="autocomplete" (selected)="onSelect($event)" [users]="users">
+            <span slot="mat-label">-- SELECIONE --</span>
+        </app-autocomplete-users>
         <mat-form-field class="maximize" appearance="outline">
             <mat-label>Responsabilidade</mat-label>
             <mat-select formControlName="responsability">
