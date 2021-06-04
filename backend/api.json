@@ -39,7 +39,30 @@
       ],
       "creation": 1621631911220,
       "id": 1,
-      "tasks": []
+      "tasks": [
+        {
+          "title": "criar homepage",
+          "type": "Épico",
+          "description": "respeitar os requisitos do cliente",
+          "status": "Pendente",
+          "userId": null,
+          "epicId": null,
+          "storyPoints": null,
+          "minutesEstimated": "3000",
+          "id": "2b6e2ea7-153a-4726-a5eb-143f98c282b8"
+        },
+        {
+          "title": "a",
+          "type": "Tarefa",
+          "description": "a",
+          "status": "Pendente",
+          "userId": 2,
+          "epicId": null,
+          "storyPoints": null,
+          "minutesEstimated": null,
+          "id": "dd640dc7-932f-492a-bafa-bfa59fde7f1e"
+        }
+      ]
     },
     {
       "name": "abc",

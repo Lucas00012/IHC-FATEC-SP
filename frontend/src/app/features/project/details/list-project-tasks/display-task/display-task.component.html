@@ -1,5 +1,5 @@
 <mat-card class="task-item" [formGroup]="form">
-    <h2 class="font-upper">
+    <h2>
         {{task.title}}
         <mat-icon (click)="handleEdit(true)" matTooltip="Editar" *ngIf="!editing && (isTaskAssigned || isSpecial)">
             edit
