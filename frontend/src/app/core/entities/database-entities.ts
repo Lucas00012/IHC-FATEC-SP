@@ -25,5 +25,9 @@ export interface Task {
     userId: number | null,
     description: string,
     title: string,
-    status: TaskStatus
+    status: TaskStatus,
+    type: TaskType,
+    epicId: number | null,
+    storyPoints: number | null,
+    minutesEstimated: number | null
 }
