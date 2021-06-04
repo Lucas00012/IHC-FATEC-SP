@@ -41,18 +41,26 @@
       "id": 1,
       "tasks": [
         {
-          "title": "Criar homepage",
-          "description": "Respeitar os requisitos definidos pelo cliente.",
-          "status": "Em andamento",
-          "userId": null,
-          "id": "42224937-2efb-48c3-a128-08d1375a8b90"
+          "title": "criar homepage",
+          "type": "Épico",
+          "description": "respeitar os requisitos do cliente",
+          "status": "Pendente",
+          "userId": 3,
+          "epicId": null,
+          "storyPoints": null,
+          "minutesEstimated": "3000",
+          "id": "2b6e2ea7-153a-4726-a5eb-143f98c282b8"
         },
         {
-          "title": "abc",
-          "description": "abc",
-          "status": "Concluída",
-          "userId": 3,
-          "id": "52d9c85a-18bc-47e3-b4bb-433e811c8784"
+          "title": "a",
+          "type": "Tarefa",
+          "description": "a",
+          "status": "Pendente",
+          "userId": 1,
+          "epicId": null,
+          "storyPoints": null,
+          "minutesEstimated": null,
+          "id": "dd640dc7-932f-492a-bafa-bfa59fde7f1e"
         }
       ]
     },

@@ -31,6 +31,7 @@ export class DisplayTaskComponent implements AfterViewInit {
 
   @Input() task!: Task;
   @Input() isSpecial!: boolean;
+  @Input() isTaskAssigned!: boolean;
 
   @Output() update = new EventEmitter<Task>();
   @Output() delete = new EventEmitter();
@@ -46,12 +47,6 @@ export class DisplayTaskComponent implements AfterViewInit {
     minutesEstimated: [null]
   });
 
-  project$ = this._projectFeatureService.currentProject$;
-
-  get autocompleteUser() {
-    return this.form.get("userId") as FormControl;
-  }
-
   get autocompleteEpic() {
     return this.form.get("epicId") as FormControl;
   }
@@ -60,68 +55,38 @@ export class DisplayTaskComponent implements AfterViewInit {
   taskTypeOptions = Object.values(TaskType);
   editing = false;
 
+  project$ = this._projectFeatureService.currentProject$;
   user$ = this._authService.user$;
-
   userOptions$ = this._projectFeatureService.usersProject$;
-
+  
+  autocompleteEpic$ = fromForm(this.autocompleteEpic);
   form$ = fromForm(this.form);
 
-  epicOptions$ = combineLatest([this.form$, this.project$]).pipe(
-    map(([form, project]) => {
+  epicOptions$ = this.project$.pipe(
+    map((project) => {
         if (!project) return [];
 
-        let tasks = project.tasks;
-        tasks = tasks.filter(t => t.type.valueOf() === TaskType.Epic.valueOf());
+        let tasks = project.tasks.filter(t => t.type === TaskType.Epic && t.id !== this.task.id);
         return tasks;
     })
-)
-
-  isTaskAssignedOrSpecial$ = this.user$.pipe(
-    map((user) => user?.id == this.task.userId),
-    map((isTaskAssigned) => isTaskAssigned || this.isSpecial)
-  );
-  
-  autocompleteUser$ = fromForm(this.autocompleteUser);
-
-  autocompleteEpic$ = fromForm(this.autocompleteEpic);
-  
-  usersFiltered$ = combineLatest([this.autocompleteUser$, this.userOptions$]).pipe(
-    map(([autocompleteUser, userOptions]) => this.filterUsers(userOptions, autocompleteUser))
   );
 
   epicsFiltered$ = combineLatest([this.autocompleteEpic$, this.epicOptions$]).pipe(
     map(([autocompleteEpic, epicOptions]) => this.filterEpics(epicOptions, autocompleteEpic))
   );
 
-  displayFnUsers(users: User[], userInput: any) {
-    const user = users.find(user => user.id == userInput);
-    return user ? `${user.name} #${user.id}` : userInput;
-  }
-
   displayFnEpics(epics: Task[], epicInput: any) {
     const epic = epics.find(epic => epic.id == epicInput);
     return epic ? `${epic.title}` : epicInput;
   }
 
-  filterUsers(users: User[], userInput: string | number) {
-    if (!userInput) return users;
-    
-    let search = userInput.toString();
-
-    return users.filter(user =>
-      insensitiveContains(user.name, search) ||
-      user.id?.toString().includes(search)
-    );
-  }
-
   filterEpics(epics: Task[], epicInput: string | number) {
     if (!epicInput) return epics;
-    
     let search = epicInput.toString();
 
     return epics.filter(epic =>
       insensitiveContains(epic.title, search) ||
-      epic.id?.toString().includes(search)
+      epic.id.toString().includes(search)
     );
   }
 
@@ -134,7 +99,6 @@ export class DisplayTaskComponent implements AfterViewInit {
 
   onUpdate() {
     if (this.form.invalid) return;
-
     this.update.emit(this.form.value);
   }
 
