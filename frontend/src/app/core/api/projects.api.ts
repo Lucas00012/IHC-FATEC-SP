@@ -163,6 +163,8 @@ export class ProjectsService {
                 ),
                 map(project => {
                     let tasks = project.tasks.filter(t => t.id != taskId);
+                    tasks = tasks.map(t => t.epicId == taskId ? { ...t, epicId: null } : t);
+
                     return { tasks };
                 }),
                 switchMap(tasks => this._http.patch<Project>(url, tasks))

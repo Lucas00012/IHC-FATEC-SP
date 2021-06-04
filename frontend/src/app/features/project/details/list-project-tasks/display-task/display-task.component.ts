@@ -99,7 +99,6 @@ export class DisplayTaskComponent implements AfterViewInit {
 
   onUpdate() {
     if (this.form.invalid) return;
-
     this.update.emit(this.form.value);
   }
 
