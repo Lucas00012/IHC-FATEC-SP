@@ -27,6 +27,8 @@ export class AutocompleteUsersComponent extends NestedForm {
 
   @Input() readonly = false;
 
+  @Input() valueProperty: string;
+
   @Output() selected = new EventEmitter<User>();
 
   form = this._fb.control(null);
@@ -45,7 +47,7 @@ export class AutocompleteUsersComponent extends NestedForm {
 
     return this.users.filter(user =>
       insensitiveContains(user.name, search) ||
-      user.id?.toString().includes(search)
+      user.id.toString().includes(search)
     );
   }
 
@@ -56,11 +58,17 @@ export class AutocompleteUsersComponent extends NestedForm {
     this.selected.emit(user);
   }
 
-  @Input() displayFn(users: User[], userInput: string | any) {
+  displayFn(users: User[], userInput: string | any) {
+    if (this.valueProperty) {
+      const user = users.find(user => user[this.valueProperty] == userInput);
+      return user ? `${user.name} #${user.id}` : userInput;
+    }
+
     return userInput && userInput.name ? `${userInput.name} #${userInput.id}` : '';
   }
 
-  @Input() mapValue(user: User): any {
+  mapValue(user: User): any {
+    if (this.valueProperty) return user[this.valueProperty];
     return user;
   }
 }
