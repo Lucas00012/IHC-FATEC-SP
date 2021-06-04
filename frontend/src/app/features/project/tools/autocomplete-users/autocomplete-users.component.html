@@ -1,0 +1,9 @@
+<mat-form-field class="maximize" appearance="outline" *ngIf="usersFiltered$ | async as users">
+    <ng-content select mat-label></ng-content>
+    <input matInput [formControl]="form" [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this)" (optionSelected)="userOnChange($event)">
+        <mat-option *ngFor="let user of users" [value]="user">
+            {{user.name}} #{{user.id}}
+        </mat-option>
+    </mat-autocomplete>
+</mat-form-field>

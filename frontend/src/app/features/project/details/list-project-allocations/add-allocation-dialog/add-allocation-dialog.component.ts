@@ -34,10 +34,8 @@ export class AddAllocationDialogComponent {
 
   autocomplete$ = fromForm(this.autocomplete);
 
-  userOptions$ = this._usersService.getAllExceptCurrent().pipe(
-    shareReplay(1)
-  );
-
+  userOptions$ = this._usersService.getAllExceptCurrent();
+  
   usersFiltered$ = combineLatest([this.autocomplete$, this.userOptions$]).pipe(
     map(([autocomplete, userOptions]) => this.filter(userOptions, autocomplete))
   );
@@ -46,7 +44,7 @@ export class AddAllocationDialogComponent {
     .filter((responsability) => responsability !== Responsability.ScrumMaster);
 
   displayFn(user: User) {
-    return user && user.name ? user.name : '';
+    return user && user.name ? `${user.name} #${user.id}` : '';
   }
 
   userOnChange(event) {
