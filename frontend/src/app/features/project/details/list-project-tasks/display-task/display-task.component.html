@@ -6,8 +6,6 @@
         </mat-icon>
     </h2>
 
-    
-
     <mat-form-field class="maximize" appearance="outline" *ngIf="editing">
         <mat-label>Título *</mat-label>
         <input matInput formControlName="title" [readonly]="!isSpecial" maxlength="20">
@@ -32,15 +30,9 @@
         <mat-error *ngIf="form.get('description')?.hasError('required')">O campo é obrigatório</mat-error>
     </mat-form-field>
 
-    <mat-form-field class="maximize" appearance="outline" *ngIf="usersFiltered$ | async as users">
-        <mat-label>Responsável</mat-label>
-        <input matInput formControlName="userId" [matAutocomplete]="auto" [readonly]="!editing || !isSpecial">
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnUsers.bind(this, users)">
-            <mat-option *ngFor="let user of users" [value]="user.id">
-                {{user.name}} #{{user.id}} <span *ngIf="(user$ | async)?.id == user.id">(Você)</span>
-            </mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
+    <app-autocomplete-users *ngIf="userOptions$ | async as users" formControlName="userId" [valueProperty]="'id'" [users]="users">
+        <span slot="mat-label">Responsável</span>
+    </app-autocomplete-users>
 
     <mat-form-field class="maximize" appearance="outline">
         <mat-label>Status</mat-label>

@@ -47,12 +47,6 @@ export class DisplayTaskComponent implements AfterViewInit {
     minutesEstimated: [null]
   });
 
-  project$ = this._projectFeatureService.currentProject$;
-
-  get autocompleteUser() {
-    return this.form.get("userId") as FormControl;
-  }
-
   get autocompleteEpic() {
     return this.form.get("epicId") as FormControl;
   }
@@ -61,10 +55,11 @@ export class DisplayTaskComponent implements AfterViewInit {
   taskTypeOptions = Object.values(TaskType);
   editing = false;
 
+  project$ = this._projectFeatureService.currentProject$;
   user$ = this._authService.user$;
-
   userOptions$ = this._projectFeatureService.usersProject$;
-
+  
+  autocompleteEpic$ = fromForm(this.autocompleteEpic);
   form$ = fromForm(this.form);
 
   epicOptions$ = this.project$.pipe(
@@ -75,43 +70,18 @@ export class DisplayTaskComponent implements AfterViewInit {
         return tasks;
     })
   );
-  
-  autocompleteUser$ = fromForm(this.autocompleteUser);
-
-  autocompleteEpic$ = fromForm(this.autocompleteEpic);
-  
-  usersFiltered$ = combineLatest([this.autocompleteUser$, this.userOptions$]).pipe(
-    map(([autocompleteUser, userOptions]) => this.filterUsers(userOptions, autocompleteUser))
-  );
 
   epicsFiltered$ = combineLatest([this.autocompleteEpic$, this.epicOptions$]).pipe(
     map(([autocompleteEpic, epicOptions]) => this.filterEpics(epicOptions, autocompleteEpic))
   );
-
-  displayFnUsers(users: User[], userInput: any) {
-    const user = users.find(user => user.id == userInput);
-    return user ? `${user.name} #${user.id}` : userInput;
-  }
 
   displayFnEpics(epics: Task[], epicInput: any) {
     const epic = epics.find(epic => epic.id == epicInput);
     return epic ? `${epic.title}` : epicInput;
   }
 
-  filterUsers(users: User[], userInput: string | number) {
-    if (!userInput) return users;
-    
-    let search = userInput.toString();
-
-    return users.filter(user =>
-      insensitiveContains(user.name, search) ||
-      user.id.toString().includes(search)
-    );
-  }
-
   filterEpics(epics: Task[], epicInput: string | number) {
     if (!epicInput) return epics;
-    
     let search = epicInput.toString();
 
     return epics.filter(epic =>
