@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable, Optional } from "@angular/core";
 import { AuthService } from "@core/auth/auth.service";
 import { Allocation, Project, Task } from "@core/entities/database-entities";
-import { Responsability } from "@core/entities/value-entities";
+import { Responsability, TaskType } from "@core/entities/value-entities";
 import { buildQuery } from "@shared/utils/utils";
 import { combineLatest, Observable, of, throwError } from "rxjs";
 import { catchError, map, switchMap, take } from "rxjs/operators";
@@ -193,6 +193,14 @@ export class ProjectsService {
                         task.description = body.description;
                         task.userId = body.userId;
                         task.status = body.status;
+                        task.type = body.type;
+                        task.minutesEstimated = body.minutesEstimated;
+                        task.storyPoints = body.storyPoints;
+                        
+                        // If not epic, update epic Id
+                        if(body.type.valueOf() !== TaskType.Epic.valueOf()){
+                            task.epicId = body.epicId;
+                        }
                     }
                     else {
                         task.status = body.status;

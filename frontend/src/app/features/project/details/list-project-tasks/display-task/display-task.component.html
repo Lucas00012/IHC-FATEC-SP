@@ -7,10 +7,24 @@
         </mat-icon>
     </h2>
 
+    
+
     <mat-form-field class="maximize" appearance="outline" *ngIf="editing">
         <mat-label>Título *</mat-label>
         <input matInput formControlName="title" [readonly]="!isSpecial" maxlength="20">
         <mat-error *ngIf="form.get('title')?.hasError('required')">O campo é obrigatório</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Tipo *</mat-label>
+        <mat-select formControlName="type" *ngIf="editing && (isTaskAssignedOrSpecial$ | async); else notCanEditType">
+            <mat-option *ngFor="let taskTypeOption of taskTypeOptions" [value]="taskTypeOption">
+                {{ taskTypeOption }}
+            </mat-option>
+        </mat-select>
+        <ng-template #notCanEditType>
+            <input matInput formControlName="type" readonly>
+        </ng-template>
     </mat-form-field>
 
     <mat-form-field class="maximize" appearance="outline">
@@ -22,7 +36,7 @@
     <mat-form-field class="maximize" appearance="outline" *ngIf="usersFiltered$ | async as users">
         <mat-label>Responsável</mat-label>
         <input matInput formControlName="userId" [matAutocomplete]="auto" [readonly]="!editing || !isSpecial">
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this, users)">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnUsers.bind(this, users)">
             <mat-option *ngFor="let user of users" [value]="user.id">
                 {{user.name}} #{{user.id}} <span *ngIf="(user$ | async)?.id == user.id">(Você)</span>
             </mat-option>
@@ -39,6 +53,26 @@
         <ng-template #notCanEditStatus>
             <input matInput formControlName="status" readonly>
         </ng-template>
+    </mat-form-field>
+
+    <mat-form-field class="maximize" appearance="outline" *ngIf="epicsFiltered$ | async as epics">
+        <mat-label>Épico</mat-label>
+        <input matInput formControlName="epicId" [matAutocomplete]="auto" [readonly]="!editing || !isSpecial">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnEpics.bind(this, epics)">
+            <mat-option *ngFor="let epic of epics" [value]="epic.id">
+                {{epic.title}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Pontos da história</mat-label>
+        <input matInput formControlName="storyPoints" [readonly]="!editing || !isSpecial" maxlength="20"/>
+    </mat-form-field>
+
+    <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Tempo estimado (min)</mat-label>
+        <input matInput formControlName="minutesEstimated" [readonly]="!editing || !isSpecial" maxlength="20"/>
     </mat-form-field>
 
     <div *ngIf="editing" class="button-container split">

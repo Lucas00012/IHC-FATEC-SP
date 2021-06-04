@@ -6,5 +6,13 @@ export enum Responsability {
 
 export enum TaskStatus {
     Done="Concluída",
-    InProgress="Em andamento"
+    InProgress="Em andamento",
+    ToDo="Pendente"
+}
+
+export enum TaskType {
+    Epic="Épico",
+    UserStory="História de usuário",
+    Task="Tarefa",
+    Bug="Bug"
 }

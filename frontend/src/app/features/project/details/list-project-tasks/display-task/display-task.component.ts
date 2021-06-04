@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { UsersService } from '@core/api/users.api';
 import { AuthService } from '@core/auth/auth.service';
 import { Project, Task, User } from '@core/entities/database-entities';
-import { TaskStatus } from '@core/entities/value-entities';
+import { TaskStatus, TaskType } from '@core/entities/value-entities';
 import { ProjectFeatureService } from '@features/project/tools/project-feature.service';
 import { fromForm, insensitiveContains } from '@shared/utils/utils';
 import { combineLatest } from 'rxjs';
@@ -37,39 +37,73 @@ export class DisplayTaskComponent implements AfterViewInit {
 
   form = this._fb.group({
     title: ["", [Validators.required, Validators.maxLength(20)]],
+    type: [null, [Validators.required]],
     description: ["", [Validators.required]],
     status: [null, [Validators.required]],
-    userId: [null]
+    userId: [null],
+    epicId: [null],
+    storyPoints: [null],
+    minutesEstimated: [null]
   });
 
-  get autocomplete() {
+  project$ = this._projectFeatureService.currentProject$;
+
+  get autocompleteUser() {
     return this.form.get("userId") as FormControl;
   }
 
+  get autocompleteEpic() {
+    return this.form.get("epicId") as FormControl;
+  }
+
   taskStatusOptions = Object.values(TaskStatus);
+  taskTypeOptions = Object.values(TaskType);
   editing = false;
 
   user$ = this._authService.user$;
 
   userOptions$ = this._projectFeatureService.usersProject$;
 
+  form$ = fromForm(this.form);
+
+  epicOptions$ = combineLatest([this.form$, this.project$]).pipe(
+    map(([form, project]) => {
+        if (!project) return [];
+
+        let tasks = project.tasks;
+        tasks = tasks.filter(t => t.type.valueOf() === TaskType.Epic.valueOf());
+        return tasks;
+    })
+)
+
   isTaskAssignedOrSpecial$ = this.user$.pipe(
     map((user) => user?.id == this.task.userId),
     map((isTaskAssigned) => isTaskAssigned || this.isSpecial)
   );
   
-  autocomplete$ = fromForm(this.autocomplete);
+  autocompleteUser$ = fromForm(this.autocompleteUser);
+
+  autocompleteEpic$ = fromForm(this.autocompleteEpic);
   
-  usersFiltered$ = combineLatest([this.autocomplete$, this.userOptions$]).pipe(
-    map(([autocomplete, userOptions]) => this.filter(userOptions, autocomplete))
+  usersFiltered$ = combineLatest([this.autocompleteUser$, this.userOptions$]).pipe(
+    map(([autocompleteUser, userOptions]) => this.filterUsers(userOptions, autocompleteUser))
   );
 
-  displayFn(users: User[], userInput: any) {
+  epicsFiltered$ = combineLatest([this.autocompleteEpic$, this.epicOptions$]).pipe(
+    map(([autocompleteEpic, epicOptions]) => this.filterEpics(epicOptions, autocompleteEpic))
+  );
+
+  displayFnUsers(users: User[], userInput: any) {
     const user = users.find(user => user.id == userInput);
     return user ? `${user.name} #${user.id}` : userInput;
   }
 
-  filter(users: User[], userInput: string | number) {
+  displayFnEpics(epics: Task[], epicInput: any) {
+    const epic = epics.find(epic => epic.id == epicInput);
+    return epic ? `${epic.title}` : epicInput;
+  }
+
+  filterUsers(users: User[], userInput: string | number) {
     if (!userInput) return users;
     
     let search = userInput.toString();
@@ -77,6 +111,17 @@ export class DisplayTaskComponent implements AfterViewInit {
     return users.filter(user =>
       insensitiveContains(user.name, search) ||
       user.id?.toString().includes(search)
+    );
+  }
+
+  filterEpics(epics: Task[], epicInput: string | number) {
+    if (!epicInput) return epics;
+    
+    let search = epicInput.toString();
+
+    return epics.filter(epic =>
+      insensitiveContains(epic.title, search) ||
+      epic.id?.toString().includes(search)
     );
   }
 

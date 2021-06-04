@@ -5,7 +5,7 @@ import { ProjectsService } from "@core/api/projects.api";
 import { UsersService } from "@core/api/users.api";
 import { AuthService } from "@core/auth/auth.service";
 import { Project, Task } from "@core/entities/database-entities";
-import { TaskStatus } from "@core/entities/value-entities";
+import { TaskStatus, TaskType } from "@core/entities/value-entities";
 import { ProjectFeatureService } from "@features/project/tools/project-feature.service";
 import { PrintSnackbarService } from "@shared/print-snackbar/print-snackbar.service";
 import { fromForm, insensitiveContains } from "@shared/utils/utils";

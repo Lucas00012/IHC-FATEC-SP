@@ -1,6 +1,15 @@
 <h1 mat-dialog-title>Criar tarefa</h1>
 <div mat-dialog-content [formGroup]="form">
     <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Tipo *</mat-label>
+        <mat-select formControlName="type">
+            <mat-option *ngFor="let taskTypeOption of typeOptions" [value]="taskTypeOption">
+                {{ taskTypeOption }}
+            </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('type')?.hasError('required')">O campo é obrigatório</mat-error>
+    </mat-form-field>
+    <mat-form-field class="maximize" appearance="outline">
         <mat-label>Título *</mat-label>
         <input matInput formControlName="title" maxlength="20">
         <mat-error *ngIf="form.get('title')?.hasError('required')">O campo é obrigatório</mat-error>
@@ -18,6 +27,14 @@
         <mat-label>Descrição *</mat-label>
         <textarea matInput formControlName="description"></textarea>
         <mat-error *ngIf="form.get('description')?.hasError('required')">O campo é obrigatório</mat-error>
+    </mat-form-field>
+    <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Pontos da história</mat-label>
+        <input matInput formControlName="storyPoints"/>
+    </mat-form-field>
+    <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Tempo estimado (min)</mat-label>
+        <input matInput formControlName="minutesEstimated"/>
     </mat-form-field>
 </div>
 <div mat-dialog-actions>

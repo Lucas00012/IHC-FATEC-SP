@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UsersService } from '@core/api/users.api';
 import { AuthService } from '@core/auth/auth.service';
 import { User } from '@core/entities/database-entities';
-import { TaskStatus } from '@core/entities/value-entities';
+import { TaskStatus, TaskType } from '@core/entities/value-entities';
 import { ProjectFeatureService } from '@features/project/tools/project-feature.service';
 import { fromForm, insensitiveContains } from '@shared/utils/utils';
 import { combineLatest, Observable } from 'rxjs';
@@ -27,9 +27,13 @@ export class TaskAddDialogComponent {
 
   form = this._fb.group({
     title: ["", [Validators.required, Validators.maxLength(25)]],
+    type: [TaskType.Task, [Validators.required]],
     description: ["", [Validators.required]],
-    status: [TaskStatus.InProgress],
-    userId: [null]
+    status: [TaskStatus.ToDo],
+    userId: [null],
+    epicId: [null],
+    storyPoints: [null],
+    minutesEstimated: [null]
   });
 
   get autocomplete() {
@@ -41,6 +45,10 @@ export class TaskAddDialogComponent {
   user$ = this._authService.user$;
 
   userOptions$ = this._projectFeatureService.usersProject$;
+
+  epicOptions$ = this._projectFeatureService.usersProject$;
+
+  typeOptions = Object.values(TaskType);
 
   autocomplete$ = fromForm(this.autocomplete);
 
