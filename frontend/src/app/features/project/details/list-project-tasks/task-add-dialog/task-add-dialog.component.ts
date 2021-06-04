@@ -29,12 +29,8 @@ export class TaskAddDialogComponent {
     title: ["", [Validators.required, Validators.maxLength(25)]],
     description: ["", [Validators.required]],
     status: [TaskStatus.InProgress],
-    userId: [null]
+    user: [null]
   });
-
-  get autocomplete() {
-    return this.form.get("userId") as FormControl;
-  }
 
   project$ = this._projectFeatureService.currentProject$;
 
@@ -42,31 +38,13 @@ export class TaskAddDialogComponent {
 
   userOptions$ = this._projectFeatureService.usersProject$;
 
-  autocomplete$ = fromForm(this.autocomplete);
-
-  usersFiltered$ = combineLatest([this.autocomplete$, this.userOptions$]).pipe(
-    map(([autocomplete, userOptions]) => this.filter(userOptions, autocomplete))
-  );
-
   onSave() {
     if (this.form.invalid) return;
 
-    this._dialogRef.close(this.form.value);
-  }
+    let body = this.form.value;
+    body.userId = body.user.id;
+    delete body.user;
 
-  displayFn(users: User[], userInput: any) {
-    const user = users.find(user => user.id == userInput);
-    return user ? `${user.name} #${user.id}` : userInput;
-  }
-
-  filter(users: User[], userInput: string | number) {
-    if (!userInput) return users;
-    
-    let search = userInput.toString();
-
-    return users.filter(user =>
-      insensitiveContains(user.name, search) ||
-      user.id?.toString().includes(search)
-    );
+    this._dialogRef.close(body);
   }
 }

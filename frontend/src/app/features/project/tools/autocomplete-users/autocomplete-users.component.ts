@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder } from '@angular/forms';
+import { AuthService } from '@core/auth/auth.service';
 import { User } from '@core/entities/database-entities';
 import { NestedForm, valueAcessorProvider } from '@shared/nested-form/nested-form';
 import { fromForm, insensitiveContains } from '@shared/utils/utils';
@@ -16,7 +17,8 @@ import { map } from 'rxjs/operators';
 export class AutocompleteUsersComponent extends NestedForm {
 
   constructor(
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private _authService: AuthService
   ) { 
     super()
   }
@@ -29,11 +31,13 @@ export class AutocompleteUsersComponent extends NestedForm {
 
   autocomplete$ = fromForm(this.form);
 
+  user$ = this._authService.user$;
+
   usersFiltered$ = this.autocomplete$.pipe(
     map((autocomplete) => this.filter(autocomplete))
   );
 
-  filter(userInput: string | number) {
+  filter(userInput: string | User) {
     if (!userInput) return this.users;
     let search = userInput.toString();
 

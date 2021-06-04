@@ -54,7 +54,7 @@ export class DisplayTaskComponent implements AfterViewInit {
   userOptions$ = this._projectFeatureService.usersProject$;
 
   isTaskAssignedOrSpecial$ = this.user$.pipe(
-    map((user) => user?.id == this.task.userId),
+    map((user) => user.id == this.task.userId),
     map((isTaskAssigned) => isTaskAssigned || this.isSpecial)
   );
   
