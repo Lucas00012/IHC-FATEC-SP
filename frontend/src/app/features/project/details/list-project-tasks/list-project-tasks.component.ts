@@ -73,7 +73,7 @@ export class ListProjectTasksComponent {
     addTask() {
         this._dialog.open(TaskAddDialogComponent, {
             width: "400px",
-            height: "450px"
+            height: "550px"
         }).afterClosed().pipe(
             filter(body => !!body),
             switchMap(body => this._projectsService.addTask(this.projectId, body)),
