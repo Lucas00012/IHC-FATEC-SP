@@ -11,6 +11,7 @@ import { TaskAddDialogComponent } from './details/list-project-tasks/task-add-di
 import { ListProjectTasksComponent } from "./details/list-project-tasks/list-project-tasks.component";
 import { DisplayTaskComponent } from './details/list-project-tasks/display-task/display-task.component';
 import { ListProjectAllocationsComponent } from './details/list-project-allocations/list-project-allocations.component';
+import { AddAllocationDialogComponent } from './details/list-project-allocations/add-allocation-dialog/add-allocation-dialog.component';
 
 @NgModule({
     declarations: [
@@ -21,7 +22,8 @@ import { ListProjectAllocationsComponent } from './details/list-project-allocati
         ListProjectTasksComponent,
         TaskAddDialogComponent,
         DisplayTaskComponent,
-        ListProjectAllocationsComponent
+        ListProjectAllocationsComponent,
+        AddAllocationDialogComponent
     ],
     imports: [
         SharedModule,
