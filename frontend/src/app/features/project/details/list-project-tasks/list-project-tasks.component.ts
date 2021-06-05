@@ -2,9 +2,7 @@ import { Component, Input } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { ProjectsService } from "@core/api/projects.api";
-import { UsersService } from "@core/api/users.api";
 import { AuthService } from "@core/auth/auth.service";
-import { Project, Task } from "@core/entities/database-entities";
 import { TaskStatus, TaskType } from "@core/entities/value-entities";
 import { ProjectFeatureService } from "@features/project/tools/project-feature.service";
 import { PrintSnackbarService } from "@shared/print-snackbar/print-snackbar.service";
@@ -47,6 +45,10 @@ export class ListProjectTasksComponent {
 
     form$ = fromForm(this.form);
 
+    isSpecial$ = combineLatest([this.isProductOwner$, this.isScrumMaster$]).pipe(
+        map(([isProductOwner, isScrumMaster]) => isProductOwner || isScrumMaster)
+    );
+
     tasks$ = combineLatest([this.form$, this.project$, this.allocation$]).pipe(
         map(([form, project, allocation]) => {
             if (!project) return [];
@@ -63,14 +65,9 @@ export class ListProjectTasksComponent {
 
             return tasks;
         })
-    )
-
-    isSpecial$ = combineLatest([
-        this.isProductOwner$, 
-        this.isScrumMaster$
-    ]).pipe(
-        map(([isProductOwner, isScrumMaster]) => isProductOwner || isScrumMaster)
     );
+
+    info$ = combineLatest([this.user$, this.isSpecial$]);
 
     addTask() {
         this._dialog.open(TaskAddDialogComponent, {
@@ -82,22 +79,6 @@ export class ListProjectTasksComponent {
             tap(_ => this._printService.printSuccess("Tarefa cadastrada com sucesso!")),
             tap(_ => this._projectFeatureService.notifyProjectChanges()),
             catchError(err => this._printService.printError("Erro ao cadastrar a tarefa", err))
-        ).subscribe();
-    }
-
-    updateTask(body: any, taskId: string) {
-        this._projectsService.updateTask(this.projectId, body, taskId).pipe(
-            tap(_ => this._printService.printSuccess("Tarefa atualizada com sucesso!")),
-            tap(_ => this._projectFeatureService.notifyProjectChanges()),
-            catchError(err => this._printService.printError("Erro ao atualizar a tarefa", err))
-        ).subscribe();
-    }
-
-    deleteTask(taskId: string) {
-        this._projectsService.removeTask(this.projectId, taskId).pipe(
-            tap(_ => this._printService.printSuccess("Tarefa excluida com sucesso!")),
-            tap(_ => this._projectFeatureService.notifyProjectChanges()),
-            catchError(err => this._printService.printError("Erro ao excluir a tarefa", err))
         ).subscribe();
     }
 }

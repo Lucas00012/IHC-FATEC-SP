@@ -1,20 +1,8 @@
 @import "src/app/shared/material/theme.scss";
 
-::-webkit-scrollbar {
-    width: 7px;
-    overflow-y: scroll;
-    background: #cecece;
-}
-
-::-webkit-scrollbar-thumb {
-    background: $primary-color;
-    border-radius: 10px;
-}
-
 .task-item {
     width: 320px;
-    height: 425px;
-    overflow-y: scroll;
+    height: 450px;
 
     h2 {
         display: flex;
@@ -33,7 +21,7 @@
 
     textarea {
         resize: none;
-        height: 150px;
+        height: 110px;
     }
 }
 

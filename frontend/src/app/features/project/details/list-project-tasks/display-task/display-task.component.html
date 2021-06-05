@@ -1,83 +1,31 @@
-<mat-card class="task-item" [formGroup]="form">
-    <h2>
+<mat-card class="task-item">
+    <h2 class="font-upper">
         {{task.title}}
-        <mat-icon (click)="handleEdit(true)" matTooltip="Editar" *ngIf="!editing && (isTaskAssigned || isSpecial)">
-            edit
+        <mat-icon matTooltip="Ver detalhes" (click)="showDetails()">
+            view_list
         </mat-icon>
     </h2>
 
-    <mat-form-field class="maximize" appearance="outline" *ngIf="editing">
-        <mat-label>Título *</mat-label>
-        <input matInput formControlName="title" [readonly]="!isSpecial" maxlength="20">
-        <mat-error *ngIf="form.get('title')?.hasError('required')">O campo é obrigatório</mat-error>
+    <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Tipo</mat-label>
+        <input matInput readonly value="{{ task.type }}">
     </mat-form-field>
 
     <mat-form-field class="maximize" appearance="outline">
-        <mat-label>Tipo *</mat-label>
-        <mat-select formControlName="type" *ngIf="editing && (isTaskAssigned || isSpecial); else notCanEditType">
-            <mat-option *ngFor="let taskTypeOption of taskTypeOptions" [value]="taskTypeOption">
-                {{ taskTypeOption }}
-            </mat-option>
-        </mat-select>
-        <ng-template #notCanEditType>
-            <input matInput formControlName="type" readonly>
+        <mat-label>Descrição</mat-label>
+        <textarea matInput readonly value="{{ task.description }}"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="maximize" appearance="outline" *ngIf="userTask$ | async as user">
+        <mat-label>Responsável</mat-label>
+        <input matInput readonly *ngIf="user.value; else noUser" value="{{ user.value.name }} #{{ user.value.id }}">
+        <ng-template #noUser>
+            <input matInput readonly>
         </ng-template>
     </mat-form-field>
-
-    <mat-form-field class="maximize" appearance="outline">
-        <mat-label>Descrição *</mat-label>
-        <textarea matInput formControlName="description" [readonly]="!editing || !isSpecial"></textarea>
-        <mat-error *ngIf="form.get('description')?.hasError('required')">O campo é obrigatório</mat-error>
-    </mat-form-field>
-
-    <app-autocomplete-users *ngIf="userOptions$ | async as users" formControlName="userId" [valueProperty]="'id'" [users]="users">
-        <span slot="mat-label">Responsável</span>
-    </app-autocomplete-users>
 
     <mat-form-field class="maximize" appearance="outline">
         <mat-label>Status</mat-label>
-        <mat-select formControlName="status" *ngIf="editing && (isTaskAssigned || isSpecial); else notCanEditStatus">
-            <mat-option *ngFor="let taskOption of taskStatusOptions" [value]="taskOption">
-                {{ taskOption }}
-            </mat-option>
-        </mat-select>
-        <ng-template #notCanEditStatus>
-            <input matInput formControlName="status" readonly>
-        </ng-template>
+        <input matInput readonly value="{{ task.status }}">
     </mat-form-field>
-
-    <mat-form-field class="maximize" appearance="outline" *ngIf="epicsFiltered$ | async as epics">
-        <mat-label>Épico</mat-label>
-        <input matInput formControlName="epicId" [matAutocomplete]="auto" [readonly]="!editing || !isSpecial">
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnEpics.bind(this, epics)">
-            <mat-option *ngFor="let epic of epics" [value]="epic.id">
-                {{epic.title}}
-            </mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
-
-    <mat-form-field class="maximize" appearance="outline">
-        <mat-label>Pontos da história</mat-label>
-        <input matInput formControlName="storyPoints" [readonly]="!editing || !isSpecial" maxlength="20"/>
-    </mat-form-field>
-
-    <mat-form-field class="maximize" appearance="outline">
-        <mat-label>Tempo estimado (min)</mat-label>
-        <input matInput formControlName="minutesEstimated" [readonly]="!editing || !isSpecial" maxlength="20"/>
-    </mat-form-field>
-
-    <div *ngIf="editing" class="button-container split">
-        <div>
-            <button mat-raised-button color="primary" class="font-white" 
-                [disabled]="form.invalid" (click)="onUpdate()">
-                Salvar
-            </button>
-            <button mat-raised-button color="warn" (click)="onDelete()" *ngIf="isSpecial">
-                Excluir
-            </button>
-        </div>
-        <button mat-icon-button (click)="handleEdit(false)" matTooltip="Cancelar">
-            <mat-icon>undo</mat-icon>
-        </button>
-    </div>
 </mat-card>

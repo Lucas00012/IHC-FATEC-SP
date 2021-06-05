@@ -45,19 +45,19 @@
           "type": "Épico",
           "description": "respeitar os requisitos do cliente",
           "status": "Pendente",
-          "userId": 3,
+          "userId": null,
           "epicId": null,
           "storyPoints": null,
           "minutesEstimated": "3000",
           "id": "2b6e2ea7-153a-4726-a5eb-143f98c282b8"
         },
         {
-          "title": "a",
+          "title": "abcde",
           "type": "Tarefa",
           "description": "a",
           "status": "Pendente",
-          "userId": 1,
-          "epicId": null,
+          "userId": 2,
+          "epicId": "2b6e2ea7-153a-4726-a5eb-143f98c282b8",
           "storyPoints": null,
           "minutesEstimated": null,
           "id": "dd640dc7-932f-492a-bafa-bfa59fde7f1e"
