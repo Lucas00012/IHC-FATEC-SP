@@ -55,7 +55,7 @@
           "title": "abcde",
           "type": "Tarefa",
           "description": "a",
-          "status": "Em andamento",
+          "status": "Pendente",
           "userId": 2,
           "epicId": null,
           "storyPoints": null,

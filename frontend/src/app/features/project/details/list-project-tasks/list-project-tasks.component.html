@@ -28,7 +28,7 @@
     <div class="task-container">
         <ng-container *ngFor="let task of tasks">
             <app-display-task *ngIf="info$ | async as info"
-                [task]="task" [isSpecial]="info.isSpecial" [isTaskAssigned]="info.user.id == task.userId">
+                [task]="task" [isSpecial]="info[1]" [isTaskAssigned]="info[0].id == task.userId">
             </app-display-task>
         </ng-container>
     </div>

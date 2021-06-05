@@ -67,9 +67,7 @@ export class ListProjectTasksComponent {
         })
     );
 
-    info$ = combineLatest([this.user$, this.isSpecial$]).pipe(
-        map(([user, isSpecial]) => ({ user, isSpecial }) )
-    );
+    info$ = combineLatest([this.user$, this.isSpecial$]);
 
     addTask() {
         this._dialog.open(TaskAddDialogComponent, {
