@@ -22,7 +22,7 @@ header {
         flex: 1;
     }
 
-    * {
+    mat-form-field, button {
         margin: 0.2em !important;
     }
 }

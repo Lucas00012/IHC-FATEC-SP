@@ -39,8 +39,11 @@
         <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef> Ações </th>
             <td mat-cell *matCellDef="let element">
-                <button mat-icon-button matTooltip="Remover" (click)="removeAllocation(element.id)">
+                <button mat-icon-button matTooltip="Remover alocação" (click)="removeAllocation(element.id)">
                     <mat-icon>delete</mat-icon>
+                </button>
+                <button mat-icon-button matTooltip="Atualizar alocação">
+                    <mat-icon>update</mat-icon>
                 </button>
             </td>
         </ng-container>

@@ -68,7 +68,12 @@ export class ListProjectAllocationsComponent implements OnInit, OnDestroy {
   dataSource$ = combineLatest([this.user$, this.usersProject$]).pipe(
     map(([user, usersProject]) => usersProject.filter(u => u.id != user.id)),
     withLatestFrom(this.project$),
-    map(([users, project]) => users.map(u => ({ ...u, responsability: project.allocations.find(a => a.userId == u.id).responsability }) )),
+    map(([users, project]) => users.map(user => 
+      ({
+        ...user,
+        responsability: project.allocations.find(a => a.userId == user.id).responsability 
+      }) 
+    )),
     tap((data) => this.dataSource.data = data),
     map(_ => this.dataSource)
   );
@@ -83,8 +88,8 @@ export class ListProjectAllocationsComponent implements OnInit, OnDestroy {
 
   addAllocation() {
     this._dialog.open(AddAllocationDialogComponent, {
-      width: "400px",
-      height: "420px"
+      width: "550px",
+      height: "320px"
     }).afterClosed().pipe(
       filter((body) => !!body),
       switchMap((body) => this._projectsService.addAllocation(this.projectId, body)),
