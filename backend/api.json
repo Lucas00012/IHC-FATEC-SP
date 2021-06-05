@@ -57,7 +57,7 @@
           "description": "a",
           "status": "Pendente",
           "userId": 2,
-          "epicId": null,
+          "epicId": "2b6e2ea7-153a-4726-a5eb-143f98c282b8",
           "storyPoints": null,
           "minutesEstimated": null,
           "id": "dd640dc7-932f-492a-bafa-bfa59fde7f1e"

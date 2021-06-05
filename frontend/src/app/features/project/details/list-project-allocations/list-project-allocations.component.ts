@@ -12,7 +12,7 @@ import { ProjectFeatureService } from '@features/project/tools/project-feature.s
 import { PrintSnackbarService } from '@shared/print-snackbar/print-snackbar.service';
 import { fromForm } from '@shared/utils/utils';
 import { combineLatest, Subject } from 'rxjs';
-import { catchError, filter, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, take, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { AddAllocationDialogComponent } from './add-allocation-dialog/add-allocation-dialog.component';
 
 @Component({
@@ -50,23 +50,26 @@ export class ListProjectAllocationsComponent implements OnInit, OnDestroy {
 
   search = this._fb.control("");
 
-  displayedColumns = ["id", "name", "email"];
+  displayedColumns = ["id", "name", "email", "responsability"];
 
   sort: MatSort;
 
-  dataSource = new MatTableDataSource<User>();
+  dataSource = new MatTableDataSource();
 
   private _destroy$ = new Subject();
 
   user$ = this._authService.user$;
   usersProject$ = this._projectFeatureService.usersProject$;
   allocation$ = this._projectFeatureService.currentAllocation$;
+  project$ = this._projectFeatureService.currentProject$;
 
   search$ = fromForm(this.search);
 
   dataSource$ = combineLatest([this.user$, this.usersProject$]).pipe(
     map(([user, usersProject]) => usersProject.filter(u => u.id != user.id)),
-    tap((users) => this.dataSource.data = users),
+    withLatestFrom(this.project$),
+    map(([users, project]) => users.map(u => ({ ...u, responsability: project.allocations.find(a => a.userId == u.id).responsability }) )),
+    tap((data) => this.dataSource.data = data),
     map(_ => this.dataSource)
   );
 
