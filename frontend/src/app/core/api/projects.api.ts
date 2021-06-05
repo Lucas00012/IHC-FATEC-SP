@@ -204,19 +204,16 @@ export class ProjectsService {
                     : of(project)
                 ),
                 map(project => {
-                    let task = <Task>project.tasks.find(t => t.id == taskId);
+                    let task = project.tasks.find(t => t.id == taskId);
+                    let allocation = project.allocations?.find(u => u.userId == user?.id);
 
                     let userExists = project.allocations?.some(u => u.userId == body.userId);
                     let epicExists = project.tasks?.some(t => t.id == body.epicId && t.type === TaskType.Epic);
 
-                    body.userId = userExists ? body.userId : null;
-
-                    let allocation = project.allocations?.find(u => u.userId == user?.id);
-
                     if (allocation?.responsability === Responsability.ScrumMaster || allocation?.responsability === Responsability.ProductOwner) {
                         task.title = body.title;
                         task.description = body.description;
-                        task.userId = body.userId;
+                        task.userId = userExists ? body.userId : null;
                         task.status = body.status;
                         task.type = body.type;
                         task.minutesEstimated = body.minutesEstimated;

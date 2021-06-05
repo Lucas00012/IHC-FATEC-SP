@@ -39,5 +39,4 @@ export interface Sprint {
     startDate: Date,
     endDate?: Date,
     tasksId: string[],
-    usersId: number[]
 }
