@@ -45,7 +45,7 @@
           "type": "Épico",
           "description": "respeitar os requisitos do cliente",
           "status": "Pendente",
-          "userId": 3,
+          "userId": null,
           "epicId": null,
           "storyPoints": null,
           "minutesEstimated": "3000",

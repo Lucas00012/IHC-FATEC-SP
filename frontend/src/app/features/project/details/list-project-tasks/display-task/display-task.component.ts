@@ -26,7 +26,8 @@ export class DisplayTaskComponent {
   usersProject$ = this._projectFeatureService.usersProject$;
 
   userTask$ = this.usersProject$.pipe(
-    map((users) => users.find(u => u.id == this.task.userId))
+    map((users) => users.find(u => u.id == this.task.userId)),
+    map((user) => ({ value: user }) )
   );
 
   showDetails() {

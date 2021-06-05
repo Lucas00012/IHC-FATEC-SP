@@ -18,7 +18,10 @@
 
     <mat-form-field class="maximize" appearance="outline" *ngIf="userTask$ | async as user">
         <mat-label>Responsável</mat-label>
-        <input matInput readonly value="{{ user.name }} #{{ user.id }}">
+        <input matInput readonly *ngIf="user.value; else noUser" value="{{ user.value.name }} #{{ user.value.id }}">
+        <ng-template #noUser>
+            <input matInput readonly>
+        </ng-template>
     </mat-form-field>
 
     <mat-form-field class="maximize" appearance="outline">
