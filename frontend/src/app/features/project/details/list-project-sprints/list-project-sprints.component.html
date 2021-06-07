@@ -8,10 +8,10 @@
             </button>
         </mat-form-field>
         <ng-container *ngIf="allocation$ | async as allocation">
-            <button mat-raised-button color="primary" class="font-white" *ngIf="allocation.responsability == 'Scrum Master'">
+            <a mat-raised-button color="primary" class="font-white" *ngIf="allocation.responsability == 'Scrum Master'" [routerLink]="['/project', projectId, 'add-sprint']">
                 <mat-icon>add</mat-icon>
                 Adicionar
-            </button>
+            </a>
         </ng-container>
     </header>
     <table mat-table [dataSource]="dataSource" matSort matSortDisableClear *ngIf="dataSource.data.length; else noData">
