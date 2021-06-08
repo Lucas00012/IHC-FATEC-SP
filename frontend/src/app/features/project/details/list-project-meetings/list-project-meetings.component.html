@@ -27,22 +27,41 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Tipo</mat-label>
-            <mat-select formControlName="status">
-                <mat-option *ngFor="let status of statusOptions" [value]="status">
-                    {{ status }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
         <mat-checkbox formControlName="myMeetings" color="primary">Reuniões que criei</mat-checkbox>
     </div>
 </mat-card>
 
-<ng-container *ngIf="meetings$ | async as meetings; else loading">
-    <p *ngIf="!meetings.length">Não há reuniões</p>
-    <div class="meetings-container">
-        <ng-container *ngFor="let meeting of meetings">
+<h2>Reuniões de hoje</h2>
+<ng-container *ngIf="todayMeetings$ | async as todayMeetings; else loading">
+    <p *ngIf="!todayMeetings.length">Não há reuniões marcadas para hoje :-)</p>
+    <div class="meeting-container">
+        <ng-container *ngFor="let meeting of todayMeetings">
+            <app-display-meeting [meeting]="meeting">
+            </app-display-meeting>
+        </ng-container>
+    </div>
+</ng-container>
+
+<hr/>
+
+<h2>Próximas reuniões</h2>
+<ng-container *ngIf="laterMeetings$ | async as laterMeetings; else loading">
+    <p *ngIf="!laterMeetings.length">Não há reuniões no futuro!</p>
+    <div class="meeting-container">
+        <ng-container *ngFor="let meeting of laterMeetings">
+            <app-display-meeting [meeting]="meeting">
+            </app-display-meeting>
+        </ng-container>
+    </div>
+</ng-container>
+
+<hr/>
+
+<h2>Reuniões passadas</h2>
+<ng-container *ngIf="pastMeetings$ | async as pastMeetings; else loading">
+    <p *ngIf="!pastMeetings.length">Não há reuniões mais antigas</p>
+    <div class="meeting-container">
+        <ng-container *ngFor="let meeting of pastMeetings">
             <app-display-meeting [meeting]="meeting">
             </app-display-meeting>
         </ng-container>

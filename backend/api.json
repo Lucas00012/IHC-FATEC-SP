@@ -133,15 +133,14 @@
       ],
       "tasks": [
         {
-          "title": "1",
-          "type": "Tarefa",
-          "description": "1",
+          "type": "Daily Scrum",
+          "title": "#1",
+          "description": "#1",
           "status": "Pendente",
-          "userId": 1,
-          "epicId": null,
-          "storyPoints": null,
-          "minutesEstimated": null,
-          "id": "090e9943-9609-4f41-9ae5-be1b6dcedeef"
+          "minutesEstimated": "100",
+          "creatorId": 2,
+          "participants": null,
+          "id": "fe62721e-bea6-4ee6-bae6-9f7166f814f5"
         }
       ],
       "creation": 1622925850027,
@@ -156,6 +155,90 @@
           "creatorId": 2,
           "participants": null,
           "id": "fe62721e-bea6-4ee6-bae6-9f7166f814f5"
+        },
+        {
+          "type": "Sprint Planning",
+          "title": "Planning Sprint #1",
+          "description": "Planning Sprint #1",
+          "minutesEstimated": "120",
+          "creatorId": null,
+          "participants": null,
+          "id": "2725071e-0a7b-45b6-bded-ac9e51819849"
+        },
+        {
+          "type": "Sprint Review",
+          "title": "Review Sprint #1",
+          "description": "Review Sprint #1",
+          "minutesEstimated": "30",
+          "creatorId": null,
+          "participants": null,
+          "id": "df66924f-b426-49ee-a89d-3e05f9f722c6"
+        },
+        {
+          "type": "Sprint Retrospective",
+          "title": "Retro Sprint #1",
+          "description": "Retro Sprint #1",
+          "minutesEstimated": "15",
+          "creatorId": null,
+          "participants": null,
+          "id": "517bd20e-b32e-4cc7-9e40-7ae97b35db02"
+        },
+        {
+          "type": "Daily Scrum",
+          "title": "Daily 07/06",
+          "description": "Daily 07/06",
+          "minutesEstimated": null,
+          "creatorId": null,
+          "participants": null,
+          "id": "c77ab190-9e82-4b1a-8911-2c71d8bd45bd"
+        },
+        {
+          "type": "Outra",
+          "title": "Reunião passada",
+          "description": "Reunião passada",
+          "minutesEstimated": null,
+          "creatorId": null,
+          "participants": null,
+          "startTime": "10:30",
+          "endTime": "11:00",
+          "date": "2021-06-08T03:00:00.000Z",
+          "id": "fda964c4-2235-4912-929b-121a8b90d072"
+        },
+        {
+          "type": "Outra",
+          "title": "Reuniao",
+          "description": "Reuniao",
+          "minutesEstimated": null,
+          "creatorId": null,
+          "participants": null,
+          "startTime": "10:30",
+          "endTime": "10:45",
+          "date": "2021-06-16T03:00:00.000Z",
+          "id": "ce894a13-a0ce-4a36-b1ba-6da49c463bbf"
+        },
+        {
+          "type": "Daily Scrum",
+          "title": "Reunião de hoje",
+          "description": "Reunião de hoje",
+          "minutesEstimated": null,
+          "creatorId": null,
+          "participants": null,
+          "startTime": "00:00",
+          "endTime": "00:05",
+          "date": "2021-06-08T03:00:00.000Z",
+          "id": "82573a78-bec1-4abb-a13d-8dab4ed340f9"
+        },
+        {
+          "type": "Outra",
+          "title": "Sprint planning Sprint 2",
+          "description": "AAA",
+          "minutesEstimated": null,
+          "creatorId": null,
+          "participants": null,
+          "startTime": "10:00",
+          "endTime": "12:00",
+          "date": "2021-06-21T03:00:00.000Z",
+          "id": "1b325ee8-beee-49e7-834f-b3d82db6c31d"
         }
       ]
     }

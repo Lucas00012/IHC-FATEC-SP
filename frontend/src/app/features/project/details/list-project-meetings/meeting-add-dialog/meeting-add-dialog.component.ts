@@ -1,8 +1,9 @@
+import { getLocaleDateFormat } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from '@core/auth/auth.service';
-import { MeetingStatus, MeetingType } from '@core/entities/value-entities';
+import { MeetingType } from '@core/entities/value-entities';
 import { ProjectFeatureService } from '@features/project/tools/project-feature.service';
 import { map } from 'rxjs/operators';
 
@@ -29,11 +30,13 @@ export class MeetingAddDialogComponent {
     type: [MeetingType.GeneralPurpose, [Validators.required]],
     title: ["", [Validators.required, Validators.maxLength(30)]],
     description: ["", [Validators.required]],
-    status: [MeetingStatus.ToDo],
     //sprintId: [null],
     minutesEstimated: [null],
     creatorId: this._authService.user$.pipe(map(user => user.id)),
-    participants: []
+    participants: [],
+    startTime: Date.now(),
+    endTime: Date.now(),
+    date: Date.now()
   });
 
   typeOptions = Object.values(MeetingType);

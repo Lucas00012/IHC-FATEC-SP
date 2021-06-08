@@ -1,0 +1,73 @@
+<h1 mat-dialog-title>DETALHES DA REUNIÃO</h1>
+<h2>{{ meeting.title }}</h2>
+<div [formGroup]="form">
+    <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Título *</mat-label>
+        <input matInput formControlName="title" maxlength="30" [readonly]="!currentUserIsCreator">
+        <mat-error *ngIf="form.get('title')?.hasError('required')">O campo é obrigatório</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="maximize" appearance="outline">
+        <mat-label>Descrição *</mat-label>
+        <textarea matInput formControlName="description" [readonly]="!currentUserIsCreator"></textarea>
+        <mat-error *ngIf="form.get('description')?.hasError('required')">O campo é obrigatório</mat-error>
+    </mat-form-field>
+
+    <div class="container-fields">
+        <mat-form-field class="maximize" appearance="outline">
+            <mat-label>Hora início (hh:mm:ss)</mat-label>
+            <input matInput formControlName="startTime" [readonly]="!currentUserIsCreator"/>
+        </mat-form-field>
+
+        <mat-form-field class="maximize" appearance="outline">
+            <mat-label>Hora fim (hh:mm:ss)</mat-label>
+            <input matInput formControlName="endTime" [readonly]="!currentUserIsCreator"/>
+        </mat-form-field>
+    </div>
+
+    <!-- <app-autocomplete-users *ngIf="userOptions$ | async as users" formControlName="userId"
+        [valueProperty]="'id'" [users]="users" [readonly]="!currentUserIsCreator">
+        <span slot="mat-label">Participantes</span>
+    </app-autocomplete-users> -->
+
+    <div class="container-fields">
+        <mat-form-field appearance="outline">
+            <mat-label>Tipo *</mat-label>
+            <mat-select formControlName="type" *ngIf="currentUserIsCreator; else notCanEditType">
+                <mat-option *ngFor="let meetingTypeOption of meetingTypeOptions" [value]="meetingTypeOption">
+                    {{ meetingTypeOption }}
+                </mat-option>
+            </mat-select>
+            <ng-template #notCanEditType>
+                <input matInput formControlName="type" readonly>
+            </ng-template>
+        </mat-form-field>
+
+        <!-- <mat-form-field appearance="outline">
+            <mat-label>Sprint</mat-label>
+            <mat-select formControlName="sprintId" *ngIf="currentUserIsCreator; else notCanEditStatus">
+                <mat-option *ngFor="let sprintOption of sprintOptions" [value]="sprintOption.id">
+                    {{ sprintOption.name }}
+                </mat-option>
+            </mat-select>
+            <ng-template #notCanEditStatus>
+                <input matInput formControlName="sprintId" readonly>
+            </ng-template>
+        </mat-form-field> -->
+    </div>
+
+    <div class="button-container split" *ngIf="projectId$ | async as projectId">
+        <div>
+            <button mat-raised-button color="primary" class="font-white" *ngIf="currentUserIsCreator"
+                [disabled]="form.invalid" (click)="update(projectId)">
+                Salvar
+            </button>
+            <button mat-raised-button color="warn" (click)="delete(projectId)" *ngIf="currentUserIsCreator">
+                Excluir
+            </button>
+        </div>
+        <button mat-button mat-dialog-close>
+            <mat-icon>undo</mat-icon> Fechar
+        </button>
+    </div>
+</div>

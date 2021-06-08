@@ -18,6 +18,7 @@ import { EditAllocationDialogComponent } from './details/list-project-allocation
 import { ListProjectMeetingsComponent } from './details/list-project-meetings/list-project-meetings.component';
 import { MeetingAddDialogComponent } from './details/list-project-meetings/meeting-add-dialog/meeting-add-dialog.component';
 import { DisplayMeetingComponent } from './details/list-project-meetings/display-meeting/display-meeting.component';
+import { EditMeetingDialogComponent } from './details/list-project-meetings/edit-meeting-dialog-component/edit-meeting-dialog-component.component';
 
 @NgModule({
     declarations: [
@@ -35,7 +36,8 @@ import { DisplayMeetingComponent } from './details/list-project-meetings/display
         EditAllocationDialogComponent,
         ListProjectMeetingsComponent,
         MeetingAddDialogComponent,
-        DisplayMeetingComponent
+        DisplayMeetingComponent,
+        EditMeetingDialogComponent
     ],
     imports: [
         SharedModule,

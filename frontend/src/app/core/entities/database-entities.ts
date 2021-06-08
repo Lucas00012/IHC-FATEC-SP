@@ -1,4 +1,4 @@
-import { Responsability, TaskStatus, TaskType, MeetingType, MeetingStatus } from "./value-entities";
+import { Responsability, TaskStatus, TaskType, MeetingType } from "./value-entities";
 
 export interface User {
     id?: number,
@@ -37,15 +37,14 @@ export interface Meeting {
     id?: string,
     title: string,
     description: string,
-    dateStart: Date,
-    dateEnd: Date,
-    minutesEstimated: number,
+    startTime: string,
+    endTime: string,
+    date: Date,
     participants: User[],
     decisions: MeetingDecision[],
     sprintId: string | null,
     creatorId: number | null,
-    type: MeetingType,
-    status: MeetingStatus
+    type: MeetingType
 }
 
 export interface MeetingDecision {

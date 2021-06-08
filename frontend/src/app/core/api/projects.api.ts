@@ -264,4 +264,59 @@ export class ProjectsService {
             ))
         );
     }
+
+    updateMeeting(id: number | undefined | null, body: Meeting, meetingId: string | undefined) {
+        let url = `${this._baseUrl}/projects/${id}`;
+
+        return this._authService.user$.pipe(
+            take(1),
+            switchMap(user => this.get(id).pipe(
+                switchMap(project => !project.allocations.some(a => a.userId == user?.id)
+                    ? throwError("Você não pertence ao projeto")
+                    : of(project)
+                ),
+                map(project => {
+
+                    let meeting = <Meeting>project.meetings.find(m => m.id == meetingId);
+
+                    // TODO: Check if the user logged in is the creator of the meeting
+
+                    if (body.creatorId !== null) {
+                        meeting.title = body.title;
+                        meeting.description = body.description;
+                        meeting.date = body.date;
+                        meeting.startTime = body.startTime;
+                        meeting.endTime = body.endTime;
+                        meeting.type = body.type;
+                        meeting.decisions = body.decisions;
+                        meeting.participants = body.participants;
+                    }
+
+                    let allMeetings = { meetings: project.meetings };
+                    return allMeetings;
+                }),
+                switchMap(meetings => this._http.patch<Project>(url, meetings))
+            ))
+        );
+    }
+
+    removeMeeting(id: number | undefined | null, meetingId: string | undefined) {
+        let url = `${this._baseUrl}/projects/${id}`;
+
+        return this._authService.user$.pipe(
+            take(1),
+            switchMap(user => this.get(id).pipe(
+                switchMap(project => !project.allocations.some(a => a.userId == user?.id)
+                ? throwError("Você não pertence ao projeto")
+                : of(project)
+                ),
+                map(project => {
+
+                    let meetings = project.meetings.filter(t => t.id != meetingId);
+                    return { meetings };
+                }),
+                switchMap(meetings => this._http.patch<Project>(url, meetings))
+            ))
+        );
+    }
 }

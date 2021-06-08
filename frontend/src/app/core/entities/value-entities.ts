@@ -17,13 +17,6 @@ export enum TaskType {
     Bug="Bug"
 }
 
-export enum MeetingStatus {
-    Done="Concluída",
-    InProgress="Em andamento",
-    ToDo="Pendente",
-    Canceled="Cancelada"
-}
-
 export enum MeetingType{
     Daily="Daily Scrum",
     Planning="Sprint Planning",

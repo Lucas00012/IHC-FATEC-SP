@@ -3,7 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ProjectsService } from '@core/api/projects.api';
 import { AuthService } from '@core/auth/auth.service';
-import { MeetingStatus, MeetingType } from '@core/entities/value-entities';
+import { MeetingType } from '@core/entities/value-entities';
 import { ProjectFeatureService } from '@features/project/tools/project-feature.service';
 import { PrintSnackbarService } from '@shared/print-snackbar/print-snackbar.service';
 import { fromForm, insensitiveCompare, insensitiveContains } from '@shared/utils/utils';
@@ -45,7 +45,6 @@ export class ListProjectMeetingsComponent {
 
   typeOptions=["Todas", ...Object.values(MeetingType)];
   //sprintOptions=[{id: 0, title: "Todas"}];
-  statusOptions=["Todas", ...Object.values(MeetingStatus)];
 
   meetings$ = combineLatest([this.form$, this.project$, this.allocation$]).pipe(
     map(([form, project, allocation]) => {
@@ -55,9 +54,6 @@ export class ListProjectMeetingsComponent {
 
       if(!meetings)
         return [];
-
-      if(form.status != "Todas")
-        meetings = meetings.filter(m => m.status == form.status);
 
       if(form.type != "Todas")
         meetings = meetings.filter(m => m.type == form.type);
@@ -71,6 +67,39 @@ export class ListProjectMeetingsComponent {
       meetings = meetings.filter(m => insensitiveContains(m.title, form.title));
 
       return meetings;
+    })
+  );
+
+  pastMeetings$ = combineLatest([this.meetings$]).pipe(
+    map(([meetings]) => {
+
+        if(!meetings) return [];
+
+        return meetings.filter(m => 
+          !!m.date 
+          && Date.parse(m.date.toString()).valueOf() <= Date.now().valueOf());
+    })
+  );
+
+  laterMeetings$ = combineLatest([this.meetings$]).pipe(
+    map(([meetings]) => {
+
+        if(!meetings) return [];
+
+        return meetings.filter(m => 
+          !!m.date 
+          && Date.parse(m.date.toString()).valueOf() >= Date.now().valueOf());
+    })
+  );
+
+  todayMeetings$ = combineLatest([this.meetings$]).pipe(
+    map(([meetings]) => {
+
+        if(!meetings) return [];
+        
+        return meetings.filter(m => 
+          !m.date 
+          || Date.parse(m.date.toString()) == Date.now());
     })
   );
 
