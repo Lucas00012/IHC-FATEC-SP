@@ -1,0 +1,56 @@
+<div class="board-component">
+    <div class="board-component-child"> <!-- ToDo tasks -->
+        <h3>Pendentes</h3>
+        <ng-container class="task" *ngIf="tasksToDo$ | async as tasksToDo; else loadingToDo">
+            <p *ngIf="!tasksToDo.length">Não há tarefas</p>
+            <div class="task-container">
+                <ng-container *ngFor="let task of tasksToDo">
+                    <app-display-task class="task" *ngIf="info$ | async as info"
+                        [task]="task" [isSpecial]="info[1]" [isTaskAssigned]="info[0].id == task.userId" [isBodySimpler]="true">
+                    </app-display-task>
+                </ng-container>
+            </div>
+        </ng-container>
+        <ng-template #loadingToDo>
+            <div class="loading-spinner">
+                <mat-spinner></mat-spinner>
+            </div>
+        </ng-template>
+    </div>
+    <div class="board-component-child"> <!-- InProgess tasks -->
+        <h3>Em andamento</h3>
+        <ng-container class="task" *ngIf="tasksInProgess$ | async as tasksInProgess; else loadingInProgess">
+            <p *ngIf="!tasksInProgess.length">Não há tarefas</p>
+            <div class="task-container">
+                <ng-container *ngFor="let task of tasksInProgess">
+                    <app-display-task class="task" *ngIf="info$ | async as info"
+                        [task]="task" [isSpecial]="info[1]" [isTaskAssigned]="info[0].id == task.userId" [isBodySimpler]="true">
+                    </app-display-task>
+                </ng-container>
+            </div>
+        </ng-container>
+        <ng-template #loadingInProgess>
+            <div class="loading-spinner">
+                <mat-spinner></mat-spinner>
+            </div>
+        </ng-template>
+    </div>
+    <div class="board-component-child"> <!-- Done tasks -->
+        <h3>Concluídas</h3>
+        <ng-container class="task" *ngIf="tasksDone$ | async as tasksDone; else loadingDone">
+            <p *ngIf="!tasksDone.length">Não há tarefas</p>
+            <div class="task-container">
+                <ng-container *ngFor="let task of tasksDone">
+                    <app-display-task class="task" *ngIf="info$ | async as info"
+                        [task]="task" [isSpecial]="info[1]" [isTaskAssigned]="info[0].id == task.userId" [isBodySimpler]="true">
+                    </app-display-task>
+                </ng-container>
+            </div>
+        </ng-container>
+        <ng-template #loadingDone>
+            <div class="loading-spinner">
+                <mat-spinner></mat-spinner>
+            </div>
+        </ng-template>
+    </div>
+</div>

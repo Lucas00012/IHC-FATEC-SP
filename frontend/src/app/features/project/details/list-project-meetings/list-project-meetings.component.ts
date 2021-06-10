@@ -97,11 +97,25 @@ export class ListProjectMeetingsComponent {
 
         if(!meetings) return [];
         
+        let today = new Date(Date.now());
+        const todayYear = today.getFullYear();
+        const todayMonth = today.getMonth();
+        const todayDay = today.getDate();
+        let todayDate = new Date(todayYear, todayMonth, todayDay);
+
         return meetings.filter(m => 
           !m.date 
-          || Date.parse(m.date.toString()) == Date.now());
+          || this.getNewDate(m.date).getTime() == todayDate.getTime());
     })
   );
+
+  getNewDate(dateString){
+    let date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+    return new Date(year, month, day);
+  }
 
   addMeeting(){
       this._dialog.open(MeetingAddDialogComponent, {

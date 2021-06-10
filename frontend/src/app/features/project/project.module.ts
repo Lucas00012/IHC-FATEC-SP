@@ -19,6 +19,7 @@ import { ListProjectMeetingsComponent } from './details/list-project-meetings/li
 import { MeetingAddDialogComponent } from './details/list-project-meetings/meeting-add-dialog/meeting-add-dialog.component';
 import { DisplayMeetingComponent } from './details/list-project-meetings/display-meeting/display-meeting.component';
 import { EditMeetingDialogComponent } from './details/list-project-meetings/edit-meeting-dialog-component/edit-meeting-dialog-component.component';
+import { ShowProjectBoardComponent } from './details/show-project-board/show-project-board.component';
 
 @NgModule({
     declarations: [
@@ -37,7 +38,8 @@ import { EditMeetingDialogComponent } from './details/list-project-meetings/edit
         ListProjectMeetingsComponent,
         MeetingAddDialogComponent,
         DisplayMeetingComponent,
-        EditMeetingDialogComponent
+        EditMeetingDialogComponent,
+        ShowProjectBoardComponent
     ],
     imports: [
         SharedModule,

@@ -22,6 +22,7 @@ export class DisplayTaskComponent {
   @Input() task!: Task;
   @Input() isSpecial!: boolean;
   @Input() isTaskAssigned!: boolean;
+  @Input() isBodySimpler!: boolean;
 
   usersProject$ = this._projectFeatureService.usersProject$;
 
