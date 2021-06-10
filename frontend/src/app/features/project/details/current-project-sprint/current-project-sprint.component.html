@@ -6,7 +6,7 @@
                     <mat-icon>description</mat-icon>
                     Dados Gerais
                 </h1>
-                <button mat-raised-button color="primary" class="font-white" *ngIf="isScrumMaster$ | async">
+                <button mat-raised-button color="primary" class="font-white" *ngIf="isScrumMaster$ | async" (click)="closeSprint()">
                     <mat-icon>highlight_off</mat-icon>
                     Fechar SPRINT
                 </button>
@@ -37,8 +37,7 @@
     </ng-container>
 
     <ng-template #notSprint>
-        <p>OOPS!</p>
-        <p>Não há nenhuma SPRINT aberta no momento</p>
+        <p>Não há nenhuma sprint aberta no momento.</p>
     </ng-template>
 </ng-container>
 

@@ -18,9 +18,9 @@ export class ProjectFeatureService {
         private _router: Router
     ) { }
 
-    private _reload$ = new BehaviorSubject<void | null>(null);
+    projectReload$ = new BehaviorSubject<void | null>(null);
 
-    projectOptions$ = combineLatest([this._authService.user$, this._reload$]).pipe(
+    projectOptions$ = combineLatest([this._authService.user$, this.projectReload$]).pipe(
         switchMap(([user, _]) => this._projectsService.getAll(user?.id)),
         shareReplay(1)
     );
@@ -64,8 +64,8 @@ export class ProjectFeatureService {
         shareReplay(1)
     );
 
-    private _currentSprint$ = this.currentProjectId$.pipe(
-        switchMap((projectId) => this._sprintsService.getAll({ projectId })),
+    private _currentSprint$ = combineLatest([this.currentProjectId$, this.projectReload$]).pipe(
+        switchMap(([projectId]) => this._sprintsService.getAll({ projectId })),
         map((sprints) => sprints.filter(s => !s.endDate)),
         map((sprints) => sprints[0]),
         shareReplay(1)
@@ -90,6 +90,6 @@ export class ProjectFeatureService {
     }
 
     notifyProjectChanges() {
-        this._reload$.next();
+        this.projectReload$.next();
     }
 }

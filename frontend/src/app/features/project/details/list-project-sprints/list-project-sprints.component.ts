@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SprintsService } from '@core/api/sprint.api';
 import { ProjectFeatureService } from '@features/project/tools/project-feature.service';
 import { fromForm } from '@shared/utils/utils';
-import { Subject } from 'rxjs';
+import { combineLatest, Subject } from 'rxjs';
 import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
@@ -49,11 +49,12 @@ export class ListProjectSprintsComponent implements OnDestroy, OnInit {
 
   allocation$ = this._projectFeatureService.currentAllocation$;
   projectId$ = this._projectFeatureService.currentProjectId$;
+  projectReload$ = this._projectFeatureService.projectReload$;
 
   search$ = fromForm(this.search);
 
-  dataSource$ = this.projectId$.pipe(
-    switchMap((projectId) => this._sprintsService.getAll({ projectId, _sort: "id", _order: "desc" })),
+  dataSource$ = combineLatest([this.projectId$, this.projectReload$]).pipe(
+    switchMap(([projectId]) => this._sprintsService.getAll({ projectId, _sort: "id", _order: "desc" })),
     tap((data) => this.dataSource.data = data),
     map(_ => this.dataSource)
   );
