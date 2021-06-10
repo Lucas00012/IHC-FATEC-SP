@@ -50,3 +50,12 @@ export interface Meeting {
 export interface MeetingDecision {
     description: string
 }
+
+export interface Sprint {
+    id?: number,
+    projectId: number,
+    objective: string,
+    startDate: Date,
+    endDate?: Date,
+    tasksId: string[],
+}

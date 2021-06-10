@@ -8,13 +8,17 @@
           </app-show-project-board>
         </mat-tab>
         <mat-tab label="Alocações">
-          <app-list-project-allocations [projectId]="projectId">
-          </app-list-project-allocations>
+          <app-list-project-allocations [projectId]="projectId"></app-list-project-allocations>
         </mat-tab>
         <mat-tab label="Reuniões"> 
           <app-list-project-meetings [projectId]="projectId">
           </app-list-project-meetings>
         </mat-tab>
-        <mat-tab label="Sprints"> Sprints </mat-tab>
+        <mat-tab label="Sprints">
+          <app-list-project-sprints [projectId]="projectId"></app-list-project-sprints>
+        </mat-tab>
+        <mat-tab label="Sprint Backlog">
+          <app-current-project-sprint [projectId]></app-current-project-sprint>
+        </mat-tab>
       </mat-tab-group>
 </ng-container>

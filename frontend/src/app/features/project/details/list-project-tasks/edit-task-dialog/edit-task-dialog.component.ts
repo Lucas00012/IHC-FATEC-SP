@@ -24,7 +24,7 @@ export class EditTaskDialogComponent implements OnInit {
     private _projectFeatureService: ProjectFeatureService,
     private _projectsService: ProjectsService,
     private _printService: PrintSnackbarService,
-    @Inject(MAT_DIALOG_DATA) private _data: { task: Task, isSpecial: boolean, isTaskAssigned: boolean }
+    @Inject(MAT_DIALOG_DATA) private _data: { task: Task, isSpecial: boolean, isTaskAssigned: boolean, deleteEnabled: boolean }
   ) { }
 
   ngOnInit() {
@@ -34,6 +34,7 @@ export class EditTaskDialogComponent implements OnInit {
   task = this._data.task;
   isSpecial = this._data.isSpecial;
   isTaskAssigned = this._data.isTaskAssigned;
+  deleteEnabled = this._data.deleteEnabled;
 
   taskStatusOptions = Object.values(TaskStatus);
   taskTypeOptions = Object.values(TaskType);
@@ -104,7 +105,7 @@ export class EditTaskDialogComponent implements OnInit {
       tap(_ => this._printService.printSuccess("Tarefa removida com sucesso!")),
       tap(_ => this._projectFeatureService.notifyProjectChanges()),
       tap(_ => this._dialogRef.close()),
-      catchError(err => this._printService.printError("Erro ao remover a tarefa", err))
+      catchError(err => this._printService.printError("Erro ao remover a tarefa: " + err, err))
     ).subscribe();
   }
 }

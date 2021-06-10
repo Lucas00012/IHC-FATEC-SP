@@ -20,6 +20,10 @@ import { MeetingAddDialogComponent } from './details/list-project-meetings/meeti
 import { DisplayMeetingComponent } from './details/list-project-meetings/display-meeting/display-meeting.component';
 import { EditMeetingDialogComponent } from './details/list-project-meetings/edit-meeting-dialog-component/edit-meeting-dialog-component.component';
 import { ShowProjectBoardComponent } from './details/show-project-board/show-project-board.component';
+import { ListProjectSprintsComponent } from './details/list-project-sprints/list-project-sprints.component';
+import { NavigationComponent } from './navigation/navigation.component';
+import { AddSprintComponent } from './navigation/add-sprint/add-sprint.component';
+import { CurrentProjectSprintComponent } from './details/current-project-sprint/current-project-sprint.component';
 
 @NgModule({
     declarations: [
@@ -39,7 +43,11 @@ import { ShowProjectBoardComponent } from './details/show-project-board/show-pro
         MeetingAddDialogComponent,
         DisplayMeetingComponent,
         EditMeetingDialogComponent,
-        ShowProjectBoardComponent
+        ShowProjectBoardComponent,
+        ListProjectSprintsComponent,
+        NavigationComponent,
+        AddSprintComponent,
+        CurrentProjectSprintComponent
     ],
     imports: [
         SharedModule,

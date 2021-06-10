@@ -55,7 +55,7 @@
           "type": "Tarefa",
           "description": "a",
           "status": "Pendente",
-          "userId": 2,
+          "userId": null,
           "epicId": "2b6e2ea7-153a-4726-a5eb-143f98c282b8",
           "storyPoints": null,
           "minutesEstimated": null,
@@ -77,11 +77,27 @@
         {
           "userId": 1,
           "responsability": "Scrum Master"
+        },
+        {
+          "userId": 2,
+          "responsability": "Funcionário"
         }
       ],
       "creation": 1621701044527,
       "id": 2,
-      "tasks": []
+      "tasks": [
+        {
+          "title": "ABCDEF",
+          "type": "Tarefa",
+          "description": "uma tarefa",
+          "status": "Pendente",
+          "userId": null,
+          "epicId": null,
+          "storyPoints": null,
+          "minutesEstimated": null,
+          "id": "710d7e77-1660-43b7-af2a-6e13b142dfab"
+        }
+      ]
     },
     {
       "name": "construção de erp",
@@ -336,5 +352,8 @@
         }
       ]
     }
+  ],
+  "sprints": [
+
   ]
 }

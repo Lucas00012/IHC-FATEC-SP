@@ -3,6 +3,8 @@ import { RouterModule, Routes } from "@angular/router";
 import { LoggedGuard } from "@shared/guards/logged.guard";
 import { DetailsComponent } from "./details/details.component";
 import { ListComponent } from "./list/list.component";
+import { AddSprintComponent } from "./navigation/add-sprint/add-sprint.component";
+import { NavigationComponent } from "./navigation/navigation.component";
 import { ProjectComponent } from "./project.component";
 import { RegisterComponent } from "./register/register.component";
 import { ProjectGuard } from "./tools/project.guard";
@@ -17,10 +19,18 @@ const routes: Routes = [
             { path: "list", component: ListComponent, canActivate: [ProjectGuard] },
             { path: "register", component: RegisterComponent, canActivate: [ProjectGuard] },
             { 
-                path: "details/:projectId",
+                path: ":projectId",
                 canActivate: [ProjectGuard],
                 children: [
-                    { path: "", component: DetailsComponent }
+                    { path: "", pathMatch: "full", redirectTo: "details" },
+                    { path: "details", component: DetailsComponent },
+                    { 
+                        path: "", 
+                        component: NavigationComponent,
+                        children: [
+                            { path: "add-sprint", component: AddSprintComponent }
+                        ] 
+                    }
                 ] 
             }
         ] 
