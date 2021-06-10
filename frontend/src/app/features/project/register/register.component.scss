@@ -17,7 +17,7 @@
     margin-bottom: 0.5em;
 }
 
-.user-item {
+.item {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -29,7 +29,33 @@
     }
 }
 
+.delete-button {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 1.5em;
+    color: white !important;
+}
+
 .user-container {
+    height: 350px;
     max-height: 350px;
     overflow-y: auto;
+}
+
+.items-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    app-autocomplete-users {
+        width: 400px;
+    }
+
+    mat-form-field, button {
+        margin: 0.5em;
+    }
+}
+
+mat-card {
+    margin-bottom: 2em;
 }

@@ -1,0 +1,11 @@
+<mat-form-field class="maximize" appearance="outline" *ngIf="usersFiltered$ | async as users">
+    <mat-label>
+        <ng-content select="[slot=mat-label]"></ng-content>
+    </mat-label>
+    <input matInput [formControl]="form" [matAutocomplete]="auto" [readonly]="readonly">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this, users)" (optionSelected)="userOnChange($event)">
+        <mat-option *ngFor="let user of users" [value]="mapValue(user)">
+            {{user.name}} #{{user.id}} <span *ngIf="(user$ | async)?.id == user.id">(Você)</span>
+        </mat-option>
+    </mat-autocomplete>
+</mat-form-field>

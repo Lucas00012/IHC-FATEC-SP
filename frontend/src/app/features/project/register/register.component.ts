@@ -31,7 +31,12 @@ export class RegisterComponent {
 
   form = this._fb.group({
     name: ["", [Validators.required]],
-    allocations: this._fb.array([])
+    allocations: this._fb.array([]),
+    tasks: [
+      [
+        
+      ]
+    ]
   });
 
   get allocations() {
@@ -43,26 +48,11 @@ export class RegisterComponent {
   responsabilityOptions = Object.values(Responsability)
     .filter((responsability) => responsability !== Responsability.ScrumMaster);
 
-  autocomplete$ = fromForm(this.autocomplete).pipe(
-    map(autocomplete => typeof autocomplete === "string" ? autocomplete : autocomplete.name)
-  );
-
   user$ = this._authService.user$;
 
-  users$ = this._usersService.getAllExceptCurrent().pipe(
-    shareReplay(1)
-  );
+  users$ = this._usersService.getAllExceptCurrent();
 
-  userOptions$ = combineLatest([this.autocomplete$, this.users$]).pipe(
-    map(([autocomplete, users]) => this.filter(users, autocomplete))
-  );
-
-  displayFn(user: User) {
-    return user && user.name ? user.name : '';
-  }
-
-  userOnChange(event) {
-    const user = event.option.value;
+  userOnChange(user) {
     this.addAllocation(user);
     this.autocomplete.setValue("");
   }
@@ -80,13 +70,6 @@ export class RegisterComponent {
 
   removeAllocation(index: number) {
     this.allocations.removeAt(index);
-  }
-
-  filter(users: User[], autocomplete: string) {
-    return users.filter(user =>
-      insensitiveContains(user.name, autocomplete) ||
-      user.id?.toString().includes(autocomplete)
-    );
   }
 
   create() {

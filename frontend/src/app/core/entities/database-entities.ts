@@ -1,4 +1,4 @@
-import { Responsability } from "./value-entities";
+import { Responsability, TaskStatus, TaskType } from "./value-entities";
 
 export interface User {
     id?: number,
@@ -12,9 +12,31 @@ export interface Project {
     name: string,
     creation: Date,
     allocations: Allocation[],
+    tasks: Task[]
 }
 
 export interface Allocation {
     userId: number,
     responsability: Responsability
+}
+
+export interface Task {
+    id?: string,
+    userId: number | null,
+    description: string,
+    title: string,
+    status: TaskStatus,
+    type: TaskType,
+    epicId: string | null,
+    storyPoints: number | null,
+    minutesEstimated: number | null
+}
+
+export interface Sprint {
+    id?: number,
+    projectId: number,
+    objective: string,
+    startDate: Date,
+    endDate?: Date,
+    tasksId: string[],
 }
