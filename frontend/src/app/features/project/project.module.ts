@@ -15,6 +15,10 @@ import { AddAllocationDialogComponent } from './details/list-project-allocations
 import { AutocompleteUsersComponent } from "./tools/autocomplete-users/autocomplete-users.component";
 import { EditTaskDialogComponent } from './details/list-project-tasks/edit-task-dialog/edit-task-dialog.component';
 import { EditAllocationDialogComponent } from './details/list-project-allocations/edit-allocation-dialog/edit-allocation-dialog.component';
+import { ListProjectSprintsComponent } from './details/list-project-sprints/list-project-sprints.component';
+import { NavigationComponent } from './navigation/navigation.component';
+import { AddSprintComponent } from './navigation/add-sprint/add-sprint.component';
+import { CurrentProjectSprintComponent } from './details/current-project-sprint/current-project-sprint.component';
 
 @NgModule({
     declarations: [
@@ -29,7 +33,11 @@ import { EditAllocationDialogComponent } from './details/list-project-allocation
         AddAllocationDialogComponent,
         AutocompleteUsersComponent,
         EditTaskDialogComponent,
-        EditAllocationDialogComponent
+        EditAllocationDialogComponent,
+        ListProjectSprintsComponent,
+        NavigationComponent,
+        AddSprintComponent,
+        CurrentProjectSprintComponent
     ],
     imports: [
         SharedModule,

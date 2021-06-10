@@ -8,6 +8,7 @@ import { combineLatest, Observable, of, throwError } from "rxjs";
 import { catchError, map, switchMap, take } from "rxjs/operators";
 import { API_BASE_URL } from "./api.module";
 import { v4 as uuidv4 } from 'uuid';
+import { SprintsService } from "./sprint.api";
 
 @Injectable({
     providedIn: "root"
@@ -17,6 +18,7 @@ export class ProjectsService {
         @Inject(HttpClient) private _http: HttpClient,
         @Optional() @Inject(API_BASE_URL) private _baseUrl: string,
         @Inject(AuthService) private _authService: AuthService,
+        @Inject(SprintsService) private _sprintsService: SprintsService
     ) { }
 
     getAll(userId?: number, objQuery?: any): Observable<Project[]> {
@@ -182,6 +184,11 @@ export class ProjectsService {
                     ? throwError("Você não pode excluir tarefas")
                     : of(project)
                 ),
+                switchMap(project => this._sprintsService.getAll().pipe(
+                    switchMap(sprints => sprints.some(s => s.tasksId.indexOf(taskId) >= 0)
+                        ? throwError("Há uma SPRINT com essa tarefa")
+                        : of(project))
+                )),
                 map(project => {
                     let tasks = project.tasks.filter(t => t.id != taskId);
                     tasks = tasks.map(t => t.epicId == taskId ? { ...t, epicId: null } : t);
@@ -204,19 +211,16 @@ export class ProjectsService {
                     : of(project)
                 ),
                 map(project => {
-                    let task = <Task>project.tasks.find(t => t.id == taskId);
+                    let task = project.tasks.find(t => t.id == taskId);
+                    let allocation = project.allocations?.find(u => u.userId == user?.id);
 
                     let userExists = project.allocations?.some(u => u.userId == body.userId);
                     let epicExists = project.tasks?.some(t => t.id == body.epicId && t.type === TaskType.Epic);
 
-                    body.userId = userExists ? body.userId : null;
-
-                    let allocation = project.allocations?.find(u => u.userId == user?.id);
-
                     if (allocation?.responsability === Responsability.ScrumMaster || allocation?.responsability === Responsability.ProductOwner) {
                         task.title = body.title;
                         task.description = body.description;
-                        task.userId = body.userId;
+                        task.userId = userExists ? body.userId : null;
                         task.status = body.status;
                         task.type = body.type;
                         task.minutesEstimated = body.minutesEstimated;

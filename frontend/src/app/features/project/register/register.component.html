@@ -1,47 +1,54 @@
 <ng-container [formGroup]="form">
+    <header class="split">
+        <h1>CRIAR PROJETO</h1>
+        <button mat-raised-button color="primary" class="font-white" [disabled]="form.invalid"
+            (click)="create()">
+            <mat-icon>save</mat-icon>
+            Salvar
+        </button>
+    </header>
     <mat-card>
-        <div class="split menu">
-            <h1>Cadastrar</h1>
-            <button mat-raised-button color="primary" class="font-white" [disabled]="form.invalid"
-                (click)="create()">
-                <mat-icon>save</mat-icon>
-                Salvar
-            </button>
-        </div>
+        <header class="items-header">
+            <h1>
+                <mat-icon>description</mat-icon>
+                Dados Gerais
+            </h1>
+        </header>
         <mat-form-field class="maximize" appearance="outline">
-            <mat-label>Nome (projeto) *</mat-label>
+            <mat-label>Nome *</mat-label>
             <input matInput formControlName="name">
             <mat-error *ngIf="form.get('name')?.hasError('required')">O campo é obrigatório</mat-error>
-        </mat-form-field>
-        <mat-form-field class="maximize" appearance="outline">
-            <mat-label>Nome ou código (usuário)</mat-label>
-            <input matInput [formControl]="autocomplete" [matAutocomplete]="auto">
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="userOnChange($event)">
-                <mat-option *ngFor="let user of usersFiltered$ | async" [value]="user">
-                {{user.name}} #{{user.id}}
-                </mat-option>
-            </mat-autocomplete>
         </mat-form-field>
     </mat-card>
     
     <mat-card formArrayName="allocations">
-        <h1>
-            <mat-icon>people</mat-icon>
-            Usuários
-        </h1>
-        <p *ngIf="!allocations.controls.length">
-            Você ainda não adicionou usuários.
-        </p>
+        <header class="items-header">
+            <h1>
+                <mat-icon>people</mat-icon>
+                Usuários
+            </h1>
+            <app-autocomplete-users *ngIf="users$ | async as users" [users]="users" (selected)="userOnChange($event)" [formControl]="autocomplete">
+                <span slot="mat-label">-- SELECIONE --</span>
+            </app-autocomplete-users>
+        </header>
         <div class="user-container">
+            <p *ngIf="!allocations.controls.length">
+                Você ainda não adicionou usuários.
+            </p>
             <ng-container *ngFor="let allocation of allocations.controls; let i = index" [formGroupName]="i">
-                <div *ngIf="allocation.value.user as user" class="user-item">
+                <div *ngIf="allocation.value.user as user" class="item">
                     <mat-form-field appearance="outline">
                         <mat-label>Usuário</mat-label>
                         <input matInput value="{{ user.name }} #{{ user.id }}" readonly>
                     </mat-form-field>
-                    <button mat-fab color="primary" class="delete-button" mat-icon-button (click)="removeAllocation(i)" matTooltip="Remover">
-                        <mat-icon>delete</mat-icon>
-                    </button>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Código</mat-label>
+                        <input matInput value="{{ user.id }}" readonly>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>E-mail</mat-label>
+                        <input matInput value="{{ user.email }}" readonly>
+                    </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>Cargo</mat-label>
                         <mat-select formControlName="responsability">
@@ -50,6 +57,9 @@
                           </mat-option>
                         </mat-select>
                     </mat-form-field>
+                    <button mat-fab color="primary" class="delete-button" mat-icon-button (click)="removeAllocation(i)" matTooltip="Remover">
+                        <mat-icon>delete</mat-icon>
+                    </button>
                 </div>
             </ng-container>
         </div>

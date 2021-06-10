@@ -31,3 +31,12 @@ export interface Task {
     storyPoints: number | null,
     minutesEstimated: number | null
 }
+
+export interface Sprint {
+    id?: number,
+    projectId: number,
+    objective: string,
+    startDate: Date,
+    endDate?: Date,
+    tasksId: string[],
+}
