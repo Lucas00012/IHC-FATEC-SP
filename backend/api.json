@@ -55,7 +55,7 @@
           "title": "criar homepage",
           "type": "Épico",
           "description": "respeitar os requisitos do cliente",
-          "status": "Pendente",
+          "status": "Concluída",
           "userId": null,
           "epicId": null,
           "storyPoints": null,
@@ -72,6 +72,20 @@
           "storyPoints": null,
           "minutesEstimated": null,
           "id": "dd640dc7-932f-492a-bafa-bfa59fde7f1e"
+        }
+      ],
+      "meetings": [
+        {
+          "type": "Outra",
+          "title": "Review #1",
+          "description": "Review #1",
+          "minutesEstimated": null,
+          "participants": null,
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "date": "2021-06-10T03:00:00.000Z",
+          "creatorId": 1,
+          "id": "dd1316f0-7354-4a6d-b438-c3b273bd82c4"
         }
       ]
     },
@@ -164,7 +178,7 @@
           "title": "History",
           "type": "História de usuário",
           "description": "A",
-          "status": "Em andamento",
+          "status": "Concluída",
           "userId": 1,
           "epicId": null,
           "storyPoints": "8",
@@ -197,7 +211,7 @@
           "title": "Tarefa 2",
           "type": "Tarefa",
           "description": "Tarefa 2",
-          "status": "Pendente",
+          "status": "Concluída",
           "userId": 1,
           "epicId": null,
           "storyPoints": null,
@@ -208,7 +222,7 @@
           "title": "Tarefa 3",
           "type": "Tarefa",
           "description": "Tarefa 3",
-          "status": "Em andamento",
+          "status": "Concluída",
           "userId": 2,
           "epicId": null,
           "storyPoints": "3",
@@ -219,8 +233,8 @@
           "title": "Tarefa 4",
           "type": "Tarefa",
           "description": "Tarefa 4",
-          "status": "Pendente",
-          "userId": null,
+          "status": "Concluída",
+          "userId": 2,
           "epicId": null,
           "storyPoints": null,
           "minutesEstimated": null,
@@ -667,7 +681,7 @@
       "projectId": 5,
       "objective": "Quarto alinhamento.",
       "startDate": 1623365714458,
-      "endDate": null,
+      "endDate": 1623373737361,
       "tasksId": [
         "e8401db4-025c-4963-94b9-6de93823087b",
         "44954695-8a82-48ff-85d4-50636574da06",
@@ -707,6 +721,36 @@
         "a91af65e-78a4-4994-8eea-890c0cbc0cef"
       ],
       "id": 6
+    },
+    {
+      "projectId": 1,
+      "objective": "abc",
+      "startDate": 1623372347772,
+      "endDate": 1623372551715,
+      "tasksId": [
+        "2b6e2ea7-153a-4726-a5eb-143f98c282b8"
+      ],
+      "id": 7
+    },
+    {
+      "projectId": 5,
+      "objective": "lorem lorem lorem\nlorem lorem lorem\nlorem lorem lorem\nlorem lorem lorem",
+      "startDate": 1623373746929,
+      "endDate": 1623373789239,
+      "tasksId": [
+        "83182e15-ab3b-468e-867d-7f8ac1d8c554"
+      ],
+      "id": 8
+    },
+    {
+      "projectId": 5,
+      "objective": "a",
+      "startDate": 1623373855185,
+      "endDate": 1623373896936,
+      "tasksId": [
+        "83182e15-ab3b-468e-867d-7f8ac1d8c554"
+      ],
+      "id": 9
     }
   ]
 }

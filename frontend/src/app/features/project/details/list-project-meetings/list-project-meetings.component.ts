@@ -33,7 +33,6 @@ export class ListProjectMeetingsComponent {
     type: ["Todas"],
     status: ["Todas"],
     title: [""],
-    //sprintId: ["Todas"],
     myMeetings: [false]
   });
 
@@ -43,17 +42,18 @@ export class ListProjectMeetingsComponent {
 
   form$ = fromForm(this.form);
 
-  typeOptions=["Todas", ...Object.values(MeetingType)];
-  //sprintOptions=[{id: 0, title: "Todas"}];
+  typeOptions = ["Todas", ...Object.values(MeetingType)];
 
-  meetings$ = combineLatest([this.form$, this.project$, this.allocation$]).pipe(
+  meetings$ = combineLatest([
+    this.form$, 
+    this.project$, 
+    this.allocation$
+  ]).pipe(
     map(([form, project, allocation]) => {
       if(!project) return [];
 
       let meetings = project.meetings;
-
-      if(!meetings)
-        return [];
+      if(!meetings) return [];
 
       if(form.type != "Todas")
         meetings = meetings.filter(m => m.type == form.type);
@@ -61,17 +61,14 @@ export class ListProjectMeetingsComponent {
       if(form.myMeetings)
         meetings = meetings.filter(m => m.creatorId == allocation.userId);
 
-      //if(form.sprint.id != 0)
-      //  meetings = meetings.filter(m => m.sprintId == form.sprint.id);
-
       meetings = meetings.filter(m => insensitiveContains(m.title, form.title));
 
       return meetings;
     })
   );
 
-  pastMeetings$ = combineLatest([this.meetings$]).pipe(
-    map(([meetings]) => {
+  pastMeetings$ = this.meetings$.pipe(
+    map((meetings) => {
 
         if(!meetings) return [];
 
@@ -87,8 +84,8 @@ export class ListProjectMeetingsComponent {
     })
   );
 
-  laterMeetings$ = combineLatest([this.meetings$]).pipe(
-    map(([meetings]) => {
+  laterMeetings$ = this.meetings$.pipe(
+    map((meetings) => {
 
         if(!meetings) return [];
 
@@ -104,8 +101,8 @@ export class ListProjectMeetingsComponent {
     })
   );
 
-  todayMeetings$ = combineLatest([this.meetings$]).pipe(
-    map(([meetings]) => {
+  todayMeetings$ = this.meetings$.pipe(
+    map((meetings) => {
 
         if(!meetings) return [];
         

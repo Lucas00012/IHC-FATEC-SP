@@ -6,9 +6,9 @@
                     <mat-icon>description</mat-icon>
                     Dados Gerais
                 </h1>
-                <button mat-raised-button color="primary" class="font-white" *ngIf="isScrumMaster$ | async" (click)="closeSprint()">
+                <button mat-raised-button color="warn" class="font-white" *ngIf="isScrumMaster$ | async" (click)="closeSprint()">
                     <mat-icon>highlight_off</mat-icon>
-                    Fechar SPRINT
+                    FECHAR SPRINT
                 </button>
             </header>
             <mat-form-field class="maximize" appearance="outline">

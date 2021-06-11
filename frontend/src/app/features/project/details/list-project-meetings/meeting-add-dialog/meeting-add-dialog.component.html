@@ -9,15 +9,6 @@
         </mat-select>
         <mat-error *ngIf="form.get('type')?.hasError('required')">O campo é obrigatório</mat-error>
     </mat-form-field>
-    <!-- <mat-form-field class="maximize" appearance="outline">
-        <mat-label>Sprint *</mat-label>
-        <mat-select formControlName="sprint">
-            <mat-option *ngFor="let sprint of sprintOptions" [value]="sprint.id">
-                {{ sprint.title }}
-            </mat-option>
-        </mat-select>
-        <mat-error *ngIf="form.get('type')?.hasError('required')">O campo é obrigatório</mat-error>
-    </mat-form-field> -->
     <mat-form-field class="maximize" appearance="outline">
         <mat-label>Título *</mat-label>
         <input matInput formControlName="title" maxlength="30">
@@ -37,37 +28,13 @@
     <mat-form-field class="maximize" appearance="outline">
         <mat-label>Hora início (hh:mm:ss)</mat-label>
         <input matInput formControlName="startTime"/>
+        <mat-error *ngIf="form.get('startTime')?.hasError('required')">O campo é obrigatório</mat-error>
     </mat-form-field>
     <mat-form-field class="maximize" appearance="outline">
         <mat-label>Hora fim (hh:mm:ss)</mat-label>
         <input matInput formControlName="endTime"/>
+        <mat-error *ngIf="form.get('endTime')?.hasError('required')">O campo é obrigatório</mat-error>
     </mat-form-field>
-    <!-- <mat-form-field class="example-chip-list" *ngIf="userOptions$ | async as users" appearance="outline">
-        <mat-label>Participantes</mat-label>
-        <mat-chip-list #chipList aria-label="Seleção de participantes">
-          <mat-chip
-            *ngFor="let user of userOptions$"
-            [selectable]="selectable"
-            [removable]="removable"
-            (removed)="remove(user)">
-            {{ user.name }}
-            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-          </mat-chip>
-          <input
-            placeholder="Adicionar usuário..."
-            #userInput
-            formControlName="participants"
-            [matAutocomplete]="auto"
-            [matChipInputFor]="chipList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            (matChipInputTokenEnd)="add($event)">
-        </mat-chip-list>
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this, users)" (optionSelected)="userOnChange($event)">
-          <mat-option *ngFor="let user of filteredUsers | async" [value]="mapValue(user)">
-            {{user.name}} #{{user.id}} <span *ngIf="(user$ | async)?.id == user.id">(Você)</span>
-          </mat-option>
-        </mat-autocomplete>
-    </mat-form-field> -->
     <div>
         <button mat-raised-button color="primary" class="font-white"
             (click)="onSave()" [disabled]="form.invalid">Salvar</button>
