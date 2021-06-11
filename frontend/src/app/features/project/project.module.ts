@@ -15,6 +15,11 @@ import { AddAllocationDialogComponent } from './details/list-project-allocations
 import { AutocompleteUsersComponent } from "./tools/autocomplete-users/autocomplete-users.component";
 import { EditTaskDialogComponent } from './details/list-project-tasks/edit-task-dialog/edit-task-dialog.component';
 import { EditAllocationDialogComponent } from './details/list-project-allocations/edit-allocation-dialog/edit-allocation-dialog.component';
+import { ListProjectMeetingsComponent } from './details/list-project-meetings/list-project-meetings.component';
+import { MeetingAddDialogComponent } from './details/list-project-meetings/meeting-add-dialog/meeting-add-dialog.component';
+import { DisplayMeetingComponent } from './details/list-project-meetings/display-meeting/display-meeting.component';
+import { EditMeetingDialogComponent } from './details/list-project-meetings/edit-meeting-dialog-component/edit-meeting-dialog-component.component';
+import { ShowProjectBoardComponent } from './details/show-project-board/show-project-board.component';
 import { ListProjectSprintsComponent } from './details/list-project-sprints/list-project-sprints.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { AddSprintComponent } from './navigation/add-sprint/add-sprint.component';
@@ -34,6 +39,11 @@ import { CurrentProjectSprintComponent } from './details/current-project-sprint/
         AutocompleteUsersComponent,
         EditTaskDialogComponent,
         EditAllocationDialogComponent,
+        ListProjectMeetingsComponent,
+        MeetingAddDialogComponent,
+        DisplayMeetingComponent,
+        EditMeetingDialogComponent,
+        ShowProjectBoardComponent,
         ListProjectSprintsComponent,
         NavigationComponent,
         AddSprintComponent,

@@ -1,0 +1,18 @@
+@import "src/app/shared/material/theme.scss";
+
+.board-component {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.board-component .board-component-child {
+    display: flex;
+    flex-direction: column;
+    width: 33.3%;
+}
+
+h3{
+    color: $primary-color;
+}

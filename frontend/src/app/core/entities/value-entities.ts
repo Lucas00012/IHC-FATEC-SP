@@ -1,7 +1,7 @@
 export enum Responsability {
     ScrumMaster="Scrum Master",
     ProductOwner="Product Owner",
-    Employee="Funcionário",
+    Employee="Membro",
 }
 
 export enum TaskStatus {
@@ -15,4 +15,12 @@ export enum TaskType {
     UserStory="História de usuário",
     Task="Tarefa",
     Bug="Bug"
+}
+
+export enum MeetingType{
+    Daily="Daily Scrum",
+    Planning="Sprint Planning",
+    Review="Sprint Review",
+    Retrospective="Sprint Retrospective",
+    GeneralPurpose="Outra"
 }
