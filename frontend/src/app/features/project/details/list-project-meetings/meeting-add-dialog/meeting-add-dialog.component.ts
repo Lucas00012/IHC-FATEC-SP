@@ -32,13 +32,12 @@ export class MeetingAddDialogComponent {
     description: ["", [Validators.required]],
     minutesEstimated: [null],
     participants: [],
-    startTime: null,
-    endTime: null,
+    startTime: [null, [Validators.required]],
+    endTime: [null, [Validators.required]],
     date: Date.now()
   });
 
   typeOptions = Object.values(MeetingType);
-  //sprintOptions = [{id: 0, title:"Sprint 0"}];
 
   onSave() {
     if (this.form.invalid) return;

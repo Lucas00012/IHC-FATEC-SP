@@ -73,6 +73,20 @@
           "minutesEstimated": null,
           "id": "dd640dc7-932f-492a-bafa-bfa59fde7f1e"
         }
+      ],
+      "meetings": [
+        {
+          "type": "Outra",
+          "title": "abc",
+          "description": "abc",
+          "minutesEstimated": null,
+          "participants": null,
+          "startTime": "10:00",
+          "endTime": "11:00",
+          "date": "2021-06-10T03:00:00.000Z",
+          "creatorId": 1,
+          "id": "dd1316f0-7354-4a6d-b438-c3b273bd82c4"
+        }
       ]
     },
     {
