@@ -55,7 +55,7 @@
           "title": "criar homepage",
           "type": "Épico",
           "description": "respeitar os requisitos do cliente",
-          "status": "Pendente",
+          "status": "Concluída",
           "userId": null,
           "epicId": null,
           "storyPoints": null,
@@ -721,6 +721,16 @@
         "a91af65e-78a4-4994-8eea-890c0cbc0cef"
       ],
       "id": 6
+    },
+    {
+      "projectId": 1,
+      "objective": "abc",
+      "startDate": 1623372347772,
+      "endDate": null,
+      "tasksId": [
+        "2b6e2ea7-153a-4726-a5eb-143f98c282b8"
+      ],
+      "id": 7
     }
   ]
 }
